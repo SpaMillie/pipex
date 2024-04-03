@@ -30,9 +30,12 @@ int main(void)
 	{
         close(fd[0]); // Close the read end of the pipe
         dup2(fd[1], STDOUT_FILENO);  // Redirect stdout to the write end of the pipe
-        execve("/bin/ls", args, NULL);// Execute the "ls" command
-        perror("execve"); // This line will be reached only if execve fails
-        exit(EXIT_FAILURE);
+		write(fd[1], "Heyyah\n",8);
+		close(fd[1]); // Close the right end oof pipe
+		exit(EXIT_SUCCESS);
+        // execve("/bin/ls", args, NULL);// Execute the "ls" command
+        // perror("execve"); // This line will be reached only if execve fails
+        // exit(EXIT_FAILURE);
     }
 	else // Parent process
 	{
@@ -46,7 +49,7 @@ int main(void)
 		if (pid == 0)
 		{
         	// Read from the read end of the pipe
-			dup2(fd[0], STDOUT)
+			dup2(fd[0], STDIN_FILENO);
         	while ((bytes_read = read(fd[0], buffer, sizeof(buffer))) > 0)
             	write(STDOUT_FILENO, buffer, bytes_read); // Write to stdout
         	if (bytes_read == -1) 
@@ -56,6 +59,8 @@ int main(void)
         	}
         	// Wait for the child process to finish
         	wait(NULL);
+			close (fd[0]);
+			exit(EXIT_SUCCESS);
 		}
     }
     return 0;
