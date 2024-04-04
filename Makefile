@@ -6,34 +6,43 @@
 #    By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/03 17:30:47 by mspasic           #+#    #+#              #
-#    Updated: 2024/04/03 17:40:05 by mspasic          ###   ########.fr        #
+#    Updated: 2024/04/04 19:38:11 by mspasic          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-SOURCE_FILES = pipex.c
+SOURCE_FILES = main.c error.c 
 OBJECT_FILES = $(SOURCE_FILES:.c=.o)
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
+LIBFT_PATH = Libft/
+LIBFT_NAME = libft.a
+LIBFT = $(LIBFT_PATH)$(LIBFT_NAME)
+
 ##########################
 
 all: $(NAME)
 
-$(NAME): $(OBJECT_FILES)
-	$(CC) $(CFLAGS) $(OBJECT_FILES) -o $(NAME)
+$(NAME): $(OBJECT_FILES) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJECT_FILES) $(LIBFT) -o $(NAME)
+
+$(LIBFT):
+	make -C $(LIBFT_PATH)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJECT_FILES)
+	@make -C $(LIBFT_PATH) clean
 
 fclean:
 	rm -f $(NAME)
+	@make -C $(LIBFT_PATH) clean
 
 re: fclean all
 
-.PHONY: clean fclean all re pipex
+.PHONY: clean fclean all re pipex libft

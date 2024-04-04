@@ -4,4 +4,6 @@ pipe
 unlink
 infile
 outfile
+pipex
+Libft/libft.a
 
