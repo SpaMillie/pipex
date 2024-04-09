@@ -6,4 +6,5 @@ infile
 outfile
 pipex
 Libft/libft.a
+testingfunc/fortest.c
 
