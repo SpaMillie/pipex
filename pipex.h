@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/04 20:59:07 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/10 16:40:33 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <sys/wait.h>
 # include "Libft/include/libft.h"
 
-typedef	struct s_params
+typedef	struct s_captains
 {
 	char	*command1;
 	char	*flags1;
@@ -26,11 +26,12 @@ typedef	struct s_params
 	char	*flags2;
 	int		fd_in;
 	int		fd_out;
-}	t_params;
+	char	**paths;
+}	t_captains;
 
 
 //main.c
-int	check_if_valid(char **argv, t_params *params);
+int	check_if_valid(char **argv, t_captains *log);
 int	main(int argc, char **argv);
 //pipex.c
 

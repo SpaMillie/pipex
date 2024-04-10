@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 14:43:01 by mspasic           #+#    #+#             */
-/*   Updated: 2023/11/04 14:15:04 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/10 17:46:33 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		j++;
 	}
 	space_to_fill[i] = '\0';
+	//if (int num == 2) free (s1)
 	return (space_to_fill);
 }
 /*
