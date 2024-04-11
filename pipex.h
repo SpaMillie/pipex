@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/10 16:40:33 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/11 19:09:29 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,28 @@
 
 typedef	struct s_captains
 {
-	char	*command1;
 	char	*flags1;
-	char	*command2;
 	char	*flags2;
 	int		fd_in;
 	int		fd_out;
 	char	**paths;
+	char	**cmnds;
+	char	**cmmndswflgs;
+	int		arg_c;
 }	t_captains;
 
 
 //main.c
-int	check_if_valid(char **argv, t_captains *log);
-int	main(int argc, char **argv);
+int		if_valid_file(char *file1, char *file2, t_captains *log);
+int		if_valid_command(char *command, t_captains *log, int com_num);
+int		check_if_valid(char **argv, char *env, t_captains *log);
+void	initialise(t_captains *log, char **envp, int argc);
+int		main(int argc, char **argv, char **envp);
 //pipex.c
 
 //error.c
-int	invalid_argument(void);
+int		invalid_argument(void);
+//pipex_strjoin.c
+char	*pipex_strjoin(char const *s1, char const *s2, int seq);
 
 #endif

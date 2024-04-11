@@ -6,63 +6,93 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/09 20:21:08 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/11 20:57:42 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <stdio.h>
 
-int	if_valid_file(char *file1, char *file2, t_params *params)
+int	if_valid_file(char *file1, char *file2, t_captains *log)
 {
-	params->fd_in = open(file1, O_RDONLY);
-	if (params->fd_in == -1)
+	log->fd_in = open(file1, O_RDONLY);
+	if (log->fd_in == -1)
 	{
-		perror("infile");
+		perror(file1);
 		return (-1);
 	}
-	params->fd_out = open(file2, O_WRONLY);
-	if (params->fd_out != -1)
+	log->fd_out = open(file2, O_WRONLY);
+	if (log->fd_out != -1)
 		return (0);
-	perror("outfile");
-	close(params->fd_in);
+	perror(file2);
+	close(log->fd_in);
 	return (-1);
 }
 
-int	if_valid_command(char *command, t_params *params)
+int	if_valid_command(char *command, t_captains *log, int com_num)
 {
-	//use env to get possible paths
-	//check if any of the possible paths are valid
-	//if yes, save it in the struct
-	//if no, return -1
-	//use access, x_OK
+	int	i;
+
+	i = 0;
+	while (log->paths[i] != NULL)
+	{
+		if (i != 0)
+			free(log->cmnds[com_num]);
+		log->cmnds[com_num] = pipex_strjoin(log->paths[i], "/", 0);
+		log->cmnds[com_num] = pipex_strjoin(log->cmnds[com_num], command, 1);
+		if (access(log->cmnds[com_num], X_OK) != -1)
+			return (0);
+		i++; 
+	}
+	free(log->cmnds[com_num]);
+	return (-1);
 }
 
-int	check_if_valid(char **argv, t_params *params)
-{	
-	if (if_valid_file(argv[0], argv[3], params) == -1)
-	{
+int	check_if_valid(char **argv, char *env, t_captains *log)
+{
+	int	i;
 
+	if (if_valid_file(argv[0], argv[log->arg_c], log) == -1)
 		return (-1);
+	i = 1;
+	while (i < log->arg_c)
+	{
+		if (if_valid_command(argv[i], log, i) == -1)
+		{
+			perror(argv[i]);
+			return (-1);
+		}
+		i++;
 	}
-	if (if_valid_command(argv[1], params) == -1)
-		return (-1);
-	if (if_valid_command(argv[2], params) == -1)
-		return (-1);
 	return (0);
 }
+void	initialise(int argc, char **argv, char **envp, t_captains *log)
+{
+	int	i;
 
-int	main(int argc, char **argv)
+	i = 0;
+	while (ft_strncmp(envp[i], "PATH=", 4) != 0)
+			i++;
+	log->paths = ft_split(envp[i] + 5, ':');
+	log->arg_c = argc - 1;
+	i = 0;
+	while (i + 2 < log->arg_c)
+	{
+		log->cmmndswflgs[i] = argv[i + 2];
+		i++; 
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
 {
 	int			check;
-	t_params	params;
+	t_captains	log;
 
 	if (argc == 5)
 	{
-		check = check_if_valid(argv + 1, &params);
-		printf("checck iis %d\n", check);
+		check = check_if_valid(argv + 1, envp[i], &log);
 		if (check == -1)
-			return (invalid_argument());
+			return (1);
 	}
 	else
 		return(invalid_argument());
