@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: milica <milica@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/11 19:09:29 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/12 09:35:59 by milica           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,11 @@
 
 typedef	struct s_captains
 {
-	char	*flags1;
-	char	*flags2;
 	int		fd_in;
 	int		fd_out;
 	char	**paths;
 	char	**cmnds;
+	char	**flags;
 	char	**cmmndswflgs;
 	int		arg_c;
 }	t_captains;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: milica <milica@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/11 20:57:42 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/12 09:40:27 by milica           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	if_valid_command(char *command, t_captains *log, int com_num)
 	int	i;
 
 	i = 0;
+	while (log->cmmndswflgs[i] != NULL)
+		//do you even need to malloc all this or can you just point at the right parts?
 	while (log->paths[i] != NULL)
 	{
 		if (i != 0)
@@ -48,7 +50,7 @@ int	if_valid_command(char *command, t_captains *log, int com_num)
 	return (-1);
 }
 
-int	check_if_valid(char **argv, char *env, t_captains *log)
+int	check_if_valid(char **argv,  t_captains *log)
 {
 	int	i;
 
@@ -57,7 +59,7 @@ int	check_if_valid(char **argv, char *env, t_captains *log)
 	i = 1;
 	while (i < log->arg_c)
 	{
-		if (if_valid_command(argv[i], log, i) == -1)
+		if (if_valid_command(log->cmmndswflgs[i], log, i) == -1)
 		{
 			perror(argv[i]);
 			return (-1);
