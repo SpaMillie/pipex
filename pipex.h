@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: milica <milica@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/12 09:35:59 by milica           ###   ########.fr       */
+/*   Updated: 2024/04/12 19:33:27 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@ int		main(int argc, char **argv, char **envp);
 int		invalid_argument(void);
 //pipex_strjoin.c
 char	*pipex_strjoin(char const *s1, char const *s2, int seq);
+//pipex_split.c
+int		pipex_split(char const *s, char c, t_captains *log, int com_num);
 
 #endif

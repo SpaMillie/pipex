@@ -139,7 +139,7 @@ static int	count_word(const char *s, char c)
 // 	return (0);
 // }
 
-char	*ft_splitstr(const char *s, char c, int option)
+static char	*ft_splitstr(const char *s, char c, int option)
 {
 	int		prev_i;
 	int		i;
@@ -160,7 +160,7 @@ char	*ft_splitstr(const char *s, char c, int option)
 	return (NULL);
 }
 
-void	pipex_split(char const *s, char c, t_captains log, int com_num)
+int	pipex_split(char const *s, char c, t_captains *log, int com_num)
 {
 	int		i;
 	int		c_word;
@@ -168,17 +168,25 @@ void	pipex_split(char const *s, char c, t_captains log, int com_num)
 	c_word = count_word(s, c);
 	i = 0;
 	if (!s)
-		return (NULL);
-	//malloc cmmnds and flags somewhere else
-	log->cmmnds[com_num] = ft_splitstr(s, c, 1);
-	if (log->cmmnds[com_num] == NULL)
-		return(free_all(log->cmmnds));
+		return (-1); 	//malloc cmmnds and flags somewhere else
+	log->cmnds[com_num] = ft_splitstr(s, c, 1);
+	if (log->cmnds[com_num] == NULL)
+	{
+		free_all(log->flags);
+		free_all(log->cmnds);
+		return (-1);
+	}
 	if (count_word == 2)
 	{
 		log->flags[com_num] = ft_splitstr(s, c, 2);
 		if (log->flags[com_num] == NULL)
-			return(free_all(log->flags));
+		{
+			free_all(log->flags);
+			free_all(log->cmnds);
+			return (-1);
+		}
 	}
+	return (0);
 }
 // #include <stdio.h>
 // int    main(void)
