@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/12 20:46:03 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:08:54 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,32 @@ int	if_valid_command(char *command, t_captains *log, int com_num)
 	free(log->cmnds[com_num]);
 	return (-1);
 }
-
-int	parsing_commands(t_captains *log, int count)
+int	allocate(t_captains *log)
 {
-	int	check;
+	int	count;
 
+	count = 0;
 	while (log->cmmndswflgs[count] != NULL)
 		count++;
-	log->cmnds = malloc((sizeof(char *) * count + 1));
+	log->cmnds = malloc((sizeof(char *) * (count + 1)));
 	if (log->cmnds == NULL)
 		return (-1);
-	log->flags = malloc((sizeof(char *) * count + 1));
+	log->flags = malloc((sizeof(char *) * (count + 1)));
 	if (log->flags == NULL)
+	{
+		free(log->cmnds);
 		return (-1);
-	count = 0;
+	}
+	return (0);
+}
+int	parsing_commands(t_captains *log, int count) //should you be putting perror everywhere?
+{
+	int	check;
+	int	count;
+
+	count = allocate(log);
+	if (count == -1)
+		return (-1);
 	while (log->cmmndswflgs[count] != NULL)
 	{
 		check = pipex_split(log->cmmndswflgs[count], ' ', log, 1);
