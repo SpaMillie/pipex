@@ -6,11 +6,11 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:42:34 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/11 18:45:33 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/16 17:01:33 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pipex.h>
+#include "pipex.h"
 
 static char	*ft_stradd(char *s1, char *s2)
 {
@@ -25,7 +25,7 @@ static char	*ft_stradd(char *s1, char *s2)
 	return (s2);
 }
 
-char	*pipex_strjoin(char const *s1, char const *s2, int seq)
+char	*pipex_strjoin(char *s1, char *s2, int seq)
 {
 	char	*space_to_fill;
 	size_t	n;

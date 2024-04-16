@@ -127,8 +127,8 @@ static int	count_word(const char *s, char c)
 	}
 	return (words);
 }
-//might not be necessary since you have it in libft
-// char	**free_all(char **res)
+
+char	**free_all(char **res);
 // {
 // 	int	i;
 
@@ -160,7 +160,7 @@ static char	*ft_splitstr(const char *s, char c, int option)
 	return (NULL);
 }
 
-int	pipex_split(char const *s, char c, t_captains *log, int com_num)
+int	pipex_split(char *s, char c, t_captains *log, int com_num)
 {
 	int		i;
 	int		c_word;
@@ -176,7 +176,7 @@ int	pipex_split(char const *s, char c, t_captains *log, int com_num)
 		free_all(log->cmnds);
 		return (-1);
 	}
-	if (count_word == 2)
+	if (c_word == 2)
 	{
 		log->flags[com_num] = ft_splitstr(s, c, 2);
 		if (log->flags[com_num] == NULL)

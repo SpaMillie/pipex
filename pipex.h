@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/12 19:33:27 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/16 17:04:58 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <sys/wait.h>
 # include "Libft/include/libft.h"
 
@@ -31,18 +32,19 @@ typedef	struct s_captains
 
 
 //main.c
+int		allocate(t_captains *log);
+int		parsing_commands(t_captains *log, int count);
+int		check_if_valid(char **argv,  t_captains *log);
+void	initialise(int argc, char **argv, char **envp, t_captains *log);
+int		main(int argc, char **argv, char **envp);
+//is_it_valid.c
 int		if_valid_file(char *file1, char *file2, t_captains *log);
 int		if_valid_command(char *command, t_captains *log, int com_num);
-int		check_if_valid(char **argv, char *env, t_captains *log);
-void	initialise(t_captains *log, char **envp, int argc);
-int		main(int argc, char **argv, char **envp);
-//pipex.c
-
 //error.c
 int		invalid_argument(void);
 //pipex_strjoin.c
-char	*pipex_strjoin(char const *s1, char const *s2, int seq);
+char	*pipex_strjoin(char *s1, char *s2, int seq);
 //pipex_split.c
-int		pipex_split(char const *s, char c, t_captains *log, int com_num);
+int		pipex_split(char *s, char c, t_captains *log, int com_num);
 
 #endif

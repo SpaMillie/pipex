@@ -6,52 +6,17 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/16 16:08:54 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/16 18:06:37 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <stdio.h>
 
-int	if_valid_file(char *file1, char *file2, t_captains *log)
-{
-	log->fd_in = open(file1, O_RDONLY);
-	if (log->fd_in == -1)
-	{
-		perror(file1);
-		return (-1);
-	}
-	log->fd_out = open(file2, O_WRONLY);
-	if (log->fd_out != -1)
-		return (0);
-	perror(file2);
-	close(log->fd_in);
-	return (-1);
-}
-int	if_valid_command(char *command, t_captains *log, int com_num)
-{
-	int	i;
-
-	i = 0;
-	while (log->cmmndswflgs[i] != NULL)
-		//do you even need to malloc all this or can you just point at the right parts?
-	while (log->paths[i] != NULL)
-	{
-		if (i != 0)
-			free(log->cmnds[com_num]);
-		log->cmnds[com_num] = pipex_strjoin(log->paths[i], "/", 0);
-		log->cmnds[com_num] = pipex_strjoin(log->cmnds[com_num], command, 1);
-		if (access(log->cmnds[com_num], X_OK) != -1)
-			return (0);
-		i++; 
-	}
-	free(log->cmnds[com_num]);
-	return (-1);
-}
 int	allocate(t_captains *log)
 {
 	int	count;
-
+	printf("entering allocate\n");
 	count = 0;
 	while (log->cmmndswflgs[count] != NULL)
 		count++;
@@ -64,13 +29,14 @@ int	allocate(t_captains *log)
 		free(log->cmnds);
 		return (-1);
 	}
+	printf("exiting allocate\n");
 	return (0);
 }
+
 int	parsing_commands(t_captains *log, int count) //should you be putting perror everywhere?
 {
 	int	check;
-	int	count;
-
+	printf("entering parsing_command\n");
 	count = allocate(log);
 	if (count == -1)
 		return (-1);
@@ -86,45 +52,51 @@ int	parsing_commands(t_captains *log, int count) //should you be putting perror 
 	}
 	log->cmnds[count] = NULL;
 	log->flags[count] = NULL;
+	printf("exiting parsing_command\n");
 	return (0);
 }
 
 int	check_if_valid(char **argv,  t_captains *log)
 {
 	int	i;
-
+	printf("entering check_if_valid\n");
 	if (if_valid_file(argv[0], argv[log->arg_c], log) == -1)
 		return (-1);
 	i = parsing_commands(log, 0);
 	if (i == -1)
 		return (-1);
-	i = 0;
 	while (i + 1 < log->arg_c)
 	{
-		if (if_valid_command(log->cmmndswflgs[i], log, i) == -1)
+		if (if_valid_command(log->cmnds[i], log, i) == -1)
 		{
 			perror(argv[i + 1]);
 			return (-1);
 		}
 		i++;
 	}
+	printf("exiting check_if_valid\n");
 	return (0);
 }
 void	initialise(int argc, char **argv, char **envp, t_captains *log)
 {
 	int	i;
 
+	printf("entering initialise\n");
 	i = 0;
 	while (ft_strncmp(envp[i], "PATH=", 4) != 0)
 			i++;
+	printf("i is %d\n", i);
 	log->paths = ft_split(envp[i] + 5, ':');
+	printf("log->paths is %s\n", log->paths[0]);
 	log->arg_c = argc - 1;
 	i = 0;
 	while (i + 2 < log->arg_c)
 	{
 		log->cmmndswflgs[i] = argv[i + 2];
+		printf("log->commandswithflags is %s\n", log->cmmndswflgs[i]);
 		i++; 
 	}
+	printf("exiting initialise\n");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -134,7 +106,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc == 5) //for bonus >= 5
 	{
-		intialise(argc, argv, envp, &log);
+		initialise(argc, argv, envp, &log);
 		check = check_if_valid(argv + 1, &log);
 		if (check == -1)
 			return (1);
