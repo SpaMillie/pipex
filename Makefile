@@ -6,7 +6,7 @@
 #    By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/03 17:30:47 by mspasic           #+#    #+#              #
-#    Updated: 2024/04/16 16:51:38 by mspasic          ###   ########.fr        #
+#    Updated: 2024/04/16 18:55:21 by mspasic          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SOURCE_FILES = main.c \
 OBJECT_FILES = $(SOURCE_FILES:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 LIBFT_PATH = Libft/
 LIBFT_NAME = libft.a

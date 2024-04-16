@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/16 18:06:37 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/16 20:38:06 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	check_if_valid(char **argv,  t_captains *log)
 	printf("entering check_if_valid\n");
 	if (if_valid_file(argv[0], argv[log->arg_c], log) == -1)
 		return (-1);
+	printf
 	i = parsing_commands(log, 0);
 	if (i == -1)
 		return (-1);
@@ -83,19 +84,23 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 
 	printf("entering initialise\n");
 	i = 0;
-	while (ft_strncmp(envp[i], "PATH=", 4) != 0)
+	while (ft_strncmp(envp[i], "PATH=", 5) != 0)
 			i++;
-	printf("i is %d\n", i);
 	log->paths = ft_split(envp[i] + 5, ':');
-	printf("log->paths is %s\n", log->paths[0]);
 	log->arg_c = argc - 1;
+	log->cmmndswflgs = (char **)malloc(sizeof(char *) * (argc - 2));
+	if (!log->cmmndswflgs)
+	{
+		perror("pipex: initialise");
+		return ;
+	}
 	i = 0;
 	while (i + 2 < log->arg_c)
 	{
-		log->cmmndswflgs[i] = argv[i + 2];
-		printf("log->commandswithflags is %s\n", log->cmmndswflgs[i]);
+		log->cmmndswflgs[i] = ft_strdup(argv[i + 2]);
 		i++; 
 	}
+	log->cmmndswflgs[i] = NULL;
 	printf("exiting initialise\n");
 }
 
