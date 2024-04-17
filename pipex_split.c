@@ -165,11 +165,11 @@ int	pipex_split(char *s, char c, t_captains *log, int com_num)
 	int		i;
 	int		c_word;
 
+	if (!s)
+		return (-1); 
 	c_word = count_word(s, c);
 	printf("words = %d\n", c_word);
 	i = 0;
-	if (!s)
-		return (-1); 
 	log->cmnds[com_num] = ft_splitstr(s, c, 1);
 	printf("cmm1 is %s\n", log->cmnds[com_num]);
 	if (log->cmnds[com_num] == NULL)
@@ -178,7 +178,7 @@ int	pipex_split(char *s, char c, t_captains *log, int com_num)
 		free_all(log->cmnds);
 		return (-1);
 	}
-	if (c_word == 2)
+	if (c_word >= 2)
 	{
 		log->flags[com_num] = ft_splitstr(s, c, 2);
 		if (log->flags[com_num] == NULL)

@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/17 14:10:39 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/17 17:54:33 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int		if_valid_command(char *command, t_captains *log, int com_num);
 //error.c
 int		invalid_argument(void);
 void	free_everything(t_captains *log);
+void	ft_perror(char *str, int fail);
 //pipex_strjoin.c
 char	*pipex_strjoin(char *s1, char *s2, int seq);
 //pipex_split.c

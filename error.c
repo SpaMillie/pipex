@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/17 14:12:44 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/17 17:52:26 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,14 @@ void	free_everything(t_captains *log)
 		free_all(log->cmnds);
 	if (log->flags != NULL)
 		free_all(log->flags);
+	if (log->paths != NULL)
+		free_all(log->paths);
+}
+
+void	ft_perror(char *str, int fail)
+{
+	if (fail == 1)
+		write(2, "pipex: command not found: ", 26);
+	write(2, str, ft_strlen(str));
+	write(2, "\n", 1);
 }

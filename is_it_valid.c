@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:49:22 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/17 15:12:45 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/17 18:01:46 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,14 @@ int	if_valid_command(char *command, t_captains *log, int com_num)
 	int	i;
 	printf("entering if_valid_command\n");
 	i = 0;
-	printf("%s and %d\n", log->paths[i], i);
+	printf("%s\n", log->paths[i]);
 	while (log->paths[i] != NULL)
 	{
 		if (i != 0)
 			free(log->cmnds[com_num]);
 		printf("%s and %d\n", log->paths[i], i);
 		printf("%d\n", com_num);
-		printf("%.1s\n", *log->cmnds);
-		printf("%s\n", log->cmnds[com_num]);
-		log->paths[i] = pipex_strjoin(log->paths[i], "/", 1);
-		log->cmnds[com_num] = pipex_strjoin(log->paths[i], command, 1);
+		log->cmnds[com_num] = pipex_strjoin(log->paths[i], command, 0);
 		if (access(log->cmnds[com_num], X_OK) != -1)
 		{
 			printf("exiting if_valid_command\n");
@@ -62,5 +59,6 @@ int	if_valid_command(char *command, t_captains *log, int com_num)
 		i++; 
 	}
 	free(log->cmnds[com_num]);
+	log->cmnds[com_num] = command;
 	return (-1);
 }

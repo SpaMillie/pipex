@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/17 14:57:31 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/17 18:13:05 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,19 @@ int	parsing_commands(t_captains *log, int count) //should you be putting perror 
 	while (log->cmmndswflgs[count] != NULL)
 	{
 		printf("commands with flags is %s\n", log->cmmndswflgs[count]);
-		check = pipex_split(log->cmmndswflgs[count], ' ', log, 1);
+		check = pipex_split(log->cmmndswflgs[count], ' ', log, count);
 		if (check == -1)
 			return (-1);
-		check = pipex_split(log->cmmndswflgs[count], ' ', log, 2);
-		if (check == -1)
-			return (-1);
+		printf("pointer issue %p\n", log->cmnds[0]);
 		count++;
 	}
+	printf("count is %d\n", count);
 	log->cmnds[count] = NULL;
 	log->flags[count] = NULL;
+	while (count--)
+	{
+		printf(" last element is %p\n", log->cmnds[count]);
+	}
 	printf("exiting parsing_command\n");
 	return (0);
 }
@@ -68,11 +71,12 @@ int	check_if_valid(char **argv,  t_captains *log)
 	i = parsing_commands(log, 0);
 	if (i == -1)
 		return (-1);
-	while (i + 1 < log->arg_c)
+	printf(" first element is %p\n", *log->cmnds);
+	while (i + 1 < log->arg_c - 1)
 	{
 		if (if_valid_command(log->cmnds[i], log, i) == -1)
 		{
-			perror(argv[i + 1]);
+			ft_perror(log->cmnds[i], 1);
 			return (-1);
 		}
 		i++;
@@ -90,6 +94,12 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 			i++;
 	printf("i is %d\n", i);
 	log->paths = ft_split(envp[i] + 5, ':');
+	i = 0;
+	while (log->paths[i] != NULL)
+	{
+		log->paths[i] = pipex_strjoin(log->paths[i], "/", 1);
+		i++;
+	}
 	i = 0;
 	while (log->paths[i] != NULL)
 		printf("%s\n", log->paths[i++]);
@@ -116,12 +126,15 @@ int	main(int argc, char **argv, char **envp)
 	int			check;
 	t_captains	log;
 
-	if (argc == 5) //for bonus >= 5
+	if (argc >= 5) //for bonus >= 5
 	{
 		initialise(argc, argv, envp, &log);
 		check = check_if_valid(argv + 1, &log);
 		if (check == -1)
+		{
+			free_everything(&log);
 			return (1);
+		}
 	}
 	else
 		return(invalid_argument());

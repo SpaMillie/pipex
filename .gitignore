@@ -10,3 +10,4 @@ testingfunc/fortest.c
 testingfunc/for
 *.o
 testingfunc/mallocfail.c
+.vscode/
