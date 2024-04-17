@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/16 20:38:06 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/17 14:57:31 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ int	parsing_commands(t_captains *log, int count) //should you be putting perror 
 	count = allocate(log);
 	if (count == -1)
 		return (-1);
+	printf("count is %d\n", count);
 	while (log->cmmndswflgs[count] != NULL)
 	{
+		printf("commands with flags is %s\n", log->cmmndswflgs[count]);
 		check = pipex_split(log->cmmndswflgs[count], ' ', log, 1);
 		if (check == -1)
 			return (-1);
@@ -60,9 +62,9 @@ int	check_if_valid(char **argv,  t_captains *log)
 {
 	int	i;
 	printf("entering check_if_valid\n");
-	if (if_valid_file(argv[0], argv[log->arg_c], log) == -1)
+	printf("argv outfile is %s\n", argv[log->arg_c - 1]);
+	if (if_valid_file(argv[0], argv[log->arg_c - 1], log) == -1)
 		return (-1);
-	printf
 	i = parsing_commands(log, 0);
 	if (i == -1)
 		return (-1);
@@ -86,8 +88,13 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 	i = 0;
 	while (ft_strncmp(envp[i], "PATH=", 5) != 0)
 			i++;
+	printf("i is %d\n", i);
 	log->paths = ft_split(envp[i] + 5, ':');
+	i = 0;
+	while (log->paths[i] != NULL)
+		printf("%s\n", log->paths[i++]);
 	log->arg_c = argc - 1;
+	printf("argc log is %d\n", log->arg_c);
 	log->cmmndswflgs = (char **)malloc(sizeof(char *) * (argc - 2));
 	if (!log->cmmndswflgs)
 	{

@@ -166,10 +166,12 @@ int	pipex_split(char *s, char c, t_captains *log, int com_num)
 	int		c_word;
 
 	c_word = count_word(s, c);
+	printf("words = %d\n", c_word);
 	i = 0;
 	if (!s)
-		return (-1); 	//malloc cmmnds and flags somewhere else
+		return (-1); 
 	log->cmnds[com_num] = ft_splitstr(s, c, 1);
+	printf("cmm1 is %s\n", log->cmnds[com_num]);
 	if (log->cmnds[com_num] == NULL)
 	{
 		free_all(log->flags);
