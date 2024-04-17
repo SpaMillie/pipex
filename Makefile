@@ -6,7 +6,7 @@
 #    By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/03 17:30:47 by mspasic           #+#    #+#              #
-#    Updated: 2024/04/16 18:55:21 by mspasic          ###   ########.fr        #
+#    Updated: 2024/04/17 18:31:24 by mspasic          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,9 +44,9 @@ clean:
 	rm -f $(OBJECT_FILES)
 	@make -C $(LIBFT_PATH) clean
 
-fclean:
+fclean: clean
 	rm -f $(NAME)
-	@make -C $(LIBFT_PATH) clean
+	rm -f $(LIBFT_PATH)$(LIBFT_NAME)
 
 re: fclean all
 

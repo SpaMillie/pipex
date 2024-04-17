@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:42:34 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/17 17:30:56 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/17 18:35:48 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ char	*pipex_strjoin(char *s1, char *s2, int seq)
 		return (NULL);
 	i = ft_strlen(s1);
 	j = 0;
-	printf("%s and %s\n", s1, s2);
-	printf("%zu and %zu\n", i, ft_strlen(s2));
 	space_to_fill = (char *)malloc(ft_strlen(s2) + i + 1);
 	if (space_to_fill == NULL)
 		return (NULL);

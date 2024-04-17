@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/17 17:52:26 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/17 18:39:36 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,18 @@
 
 int	invalid_argument(void)
 {
-	write(1, "Argument error\n", 24);
+	write(1, "pipex: invalid arguments\n", 26);
 	return (0); //cant do this, use perror or strerror
 }
 char	**free_all(char **res);
 void	free_everything(t_captains *log)
 {
-	if (log->file1 != NULL)
-		free(log->file1);
-	if (log->file2 != NULL)
-		free(log->file2);
-	if (log->cmmndswflgs != NULL)
-		free_all(log->cmmndswflgs);
-	if (log->cmnds != NULL)
-		free_all(log->cmnds);
-	if (log->flags != NULL)
-		free_all(log->flags);
-	if (log->paths != NULL)
-		free_all(log->paths);
+	free(log->file1);
+	free(log->file2);
+	free_all(log->cmmndswflgs);
+	free_all(log->cmnds);
+	free_all(log->flags);
+	free_all(log->paths);
 }
 
 void	ft_perror(char *str, int fail)
