@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/17 17:54:33 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/23 16:04:13 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ typedef	struct s_captains
 	char	*file1;
 	char	*file2;
 	char	**paths;
-	char	**cmnds;
-	char	**flags;
+	char	***execve_args;
 	char	**cmmndswflgs;
 	int		arg_c;
 }	t_captains;

@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 15:40:41 by mspasic           #+#    #+#             */
-/*   Updated: 2023/11/16 21:27:43 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/23 15:36:17 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,10 @@ char	**free_all(char **res)
 	int	i;
 
 	i = 0;
-	while (res[i])
+	while (res && res[i])
 		free(res[i++]);
-	free(res);
+	if (res)
+		free(res);
 	return (0);
 }
 

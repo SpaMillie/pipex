@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/17 18:36:27 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/23 16:09:24 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ int	check_if_valid(char **argv,  t_captains *log)
 	i = parsing_commands(log, 0);
 	if (i == -1)
 		return (-1);
-	printf(" first element is %p\n", *log->cmnds);
+	printf(" first element is %p\n", *log->execve_args[0]);
 	while (i + 1 < log->arg_c - 1)
 	{
-		if (if_valid_command(log->cmnds[i], log, i) == -1)
+		if (if_valid_command(log->execve_args[0][i], log, i) == -1)
 		{
-			ft_perror(log->cmnds[i], 1);
+			ft_perror(log->execve_args[0][i], 1);
 			return (-1);
 		}
 		i++;
@@ -118,6 +118,7 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 		i++; 
 	}
 	log->cmmndswflgs[i] = NULL;
+	log->flags = NULL; //double check: is this how to initialise a triple pointer
 	printf("exiting initialise\n");
 }
 
@@ -126,8 +127,9 @@ int	main(int argc, char **argv, char **envp)
 	int			check;
 	t_captains	log;
 
-	if (argc >= 5) //for bonus >= 5
+	if (argc == 5) //for bonus >= 5
 	{
+		log = (t_captains){0}; //look up compound literals
 		initialise(argc, argv, envp, &log);
 		check = check_if_valid(argv + 1, &log);
 		if (check == -1)

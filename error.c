@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/17 18:39:36 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/23 15:42:56 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	free_everything(t_captains *log)
 	free(log->file2);
 	free_all(log->cmmndswflgs);
 	free_all(log->cmnds);
+	printf("flags is %p\n", log->flags);
 	free_all(log->flags);
 	free_all(log->paths);
 }
