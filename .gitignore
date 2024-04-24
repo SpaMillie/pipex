@@ -10,3 +10,6 @@ testingfunc/for
 *.o
 testingfunc/mallocfail.c
 .vscode/
+testingfunc/dup2
+testingfunc/dup2.c
+testingfunc/testing.txt
