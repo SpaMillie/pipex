@@ -6,7 +6,6 @@ infile
 outfile
 pipex
 Libft/libft.a
-testingfunc/fortest.c
 testingfunc/for
 *.o
 testingfunc/mallocfail.c
