@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/24 18:51:21 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:55:27 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,28 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include "Libft/include/libft.h"
-
+//check which headers you need 
 typedef	struct s_captains
 {
 	int		fd_in;
 	int		fd_out;
 	char	*file1;
 	char	*file2;
-	char	**paths;
+	char	**paths; //if a command doesn't exist do perror and have NULL for it
 	char	***execve_args;
-	char	**cmmndswflgs;
+	char	**cmmndswflgs; //probably can just use argv
+	char	**cmnd_path;
 	int		arg_c;
-	int		process_n;
+	int		cm_num;
+	int		**fds;
 }	t_captains;
 
+typedef	struct s_filedes
+{
+	int fd_in;
+	int	fd_out;
+	int	fd_cls;
+} t_filedes;
 
 //main.c
 int		allocate(t_captains *log);

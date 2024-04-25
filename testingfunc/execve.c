@@ -5,7 +5,7 @@ int	main(int argc, char **argv)
 {
 	if (argc > 1)
 	{
-		if (execve("./dup22", argv + 1, NULL) == -1)
+		if (execve("./nonexistant.c", argv + 1, NULL) == -1)
 		{	
 			perror("execve");
 			return 1;
