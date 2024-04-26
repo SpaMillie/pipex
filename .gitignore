@@ -15,3 +15,5 @@ testingfunc/dup2.c
 testingfunc/testing.txt
 testingfunc/strerror
 testingfunc/strerror.c
+testingfunc/mallocing
+

@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/26 15:40:54 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/26 18:44:51 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 	i = 0;
 	while (ft_strncmp(envp[i], "PATH=", 5) != 0)
 			i++;
-	printf("i is %d\n", i);
 	log->paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (log->paths[i] != NULL)
@@ -101,10 +100,7 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 		i++;
 	}
 	i = 0;
-	while (log->paths[i] != NULL)
-		printf("%s\n", log->paths[i++]);
 	log->arg_c = argc - 1;
-	printf("argc log is %d\n", log->arg_c);
 	log->cmmndswflgs = (char **)malloc(sizeof(char *) * (argc - 2));
 	if (!log->cmmndswflgs)
 	{
@@ -118,7 +114,6 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 		i++; 
 	}
 	log->cmmndswflgs[i] = NULL;
-	log->flags = NULL; //double check: is this how to initialise a triple pointer
 	printf("exiting initialise\n");
 }
 
@@ -129,7 +124,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc == 5) //for bonus >= 5
 	{
-		log = (t_captains){0}; //look up compound literals
+		// log = (t_captains){0}; //look up compound literals
 		initialise(argc, argv, envp, &log);
 		check = check_if_valid(argv + 1, &log);
 		if (check == -1)

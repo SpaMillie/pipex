@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/26 16:20:52 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/26 18:39:48 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,25 @@ void	free_everything(t_captains *log)
 	free(log->file1);
 	free(log->file2);
 	free_all(log->cmmndswflgs);
-	free_all(log->cmnds);
-	printf("flags is %p\n", log->flags);
-	free_all(log->flags);
 	free_all(log->paths);
 }
 
-void	ft_perror(char *str, int fail)
+// void	ft_perror(char *str, int fail)
+// {
+// 	if (fail == 1)
+// 		perror_exit(str);
+// 	if (fail == 2)
+// 		write(2, "pipex: malloc failed", 20);
+// 	write(2, str, ft_strlen(str));
+// 	write(2, "\n", 1);
+// 	exit(EXIT_FAILURE);
+// }
+void	perror_exit(char *str, int to_free, t_captains *log)
 {
-	if (fail == 1)
-		write(2, "pipex: command not found: ", 26);
+	perror("pipex: ");
+	write (2, ": ", 2);
 	write(2, str, ft_strlen(str));
-	write(2, "\n", 1);
-	exit(EXIT_FAILURE);
-}
-void	perror_exit(char *str)
-{
-	perror(str);
+	if (to_free == -1)
+		free_everything(log);
 	exit(EXIT_FAILURE);
 }
