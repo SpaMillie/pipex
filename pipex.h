@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/26 18:33:24 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/26 20:00:49 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ typedef	struct s_captains
 {
 	int		fd_in;
 	int		fd_out;
-	char	*file1;
-	char	*file2;
-	char	**paths; //if a command doesn't exist do perror and have NULL for it
-	char	***execve_args;
-	char	**cmmndswflgs; //probably can just use argv
-	char	**cmnd_path;
 	int		arg_c;
 	int		cm_num;
 	int		*pids;
+	char	*file1;
+	char	*file2;
+	char	**paths; //if a command doesn't exist do perror and have NULL for it
+	char	**cmmndswflgs;
+	char	**cmnd_path;
+	char	***execve_args;
 }	t_captains;
 
 typedef	struct s_filedes

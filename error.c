@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/26 18:39:48 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/26 19:55:51 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	free_everything(t_captains *log)
 {
 	free(log->file1);
 	free(log->file2);
+	free(log->pids);
 	free_all(log->cmmndswflgs);
 	free_all(log->paths);
 }

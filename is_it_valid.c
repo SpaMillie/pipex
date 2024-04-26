@@ -6,36 +6,27 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:49:22 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/17 18:01:46 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/26 20:35:06 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	if_valid_file(char *file1, char *file2, t_captains *log)
+void	if_valid_file(char *file1, char *file2, t_captains *log)
 {
 	printf("entering if_valid_file\n");
 	log->file1 = pipex_strjoin("./", file1, 0);
 	log->file2 = pipex_strjoin("./", file2, 0);
 	if (!log->file1 || !log->file2)
-	{
-		free_everything(log);
-		return (-1);
-	}
+		perror_exit("malloc", -1, log);
 	log->fd_in = open(file1, O_RDONLY);
 	if (log->fd_in == -1)
-	{
-		perror(file1);
-		return (-1);
-	}
+		perror_exit(file1, 1, log);
 	log->fd_out = open(file2, O_WRONLY);
 	if (log->fd_out != -1)
-		return (0);
-	perror(file2);
-	free(file1);
-	free(file2);
-	close(log->fd_in);
-	return (-1);
+		return ;
+	perror_exit(file2, 1, log);
+	printf("exiting if_valid_file\n");
 }
 
 int	if_valid_command(char *command, t_captains *log, int com_num)

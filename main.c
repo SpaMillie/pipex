@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/26 18:44:51 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/26 20:38:01 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	allocate(t_captains *log)
 	count = 0;
 	while (log->cmmndswflgs[count] != NULL)
 		count++;
-	log->cmnds = malloc((sizeof(char *) * (count + 1)));
-	if (log->cmnds == NULL)
+	log->execve_args = (char ***)malloc((sizeof(char **) * (count + 1)));
+	if (log->execve_args == NULL)
 		return (-1);
 	log->flags = malloc((sizeof(char *) * (count + 1)));
 	if (log->flags == NULL)
@@ -66,8 +66,7 @@ int	check_if_valid(char **argv,  t_captains *log)
 	int	i;
 	printf("entering check_if_valid\n");
 	printf("argv outfile is %s\n", argv[log->arg_c - 1]);
-	if (if_valid_file(argv[0], argv[log->arg_c - 1], log) == -1)
-		return (-1);
+	if_valid_file(argv[0], argv[log->arg_c - 1], log); //opening_files
 	i = parsing_commands(log, 0);
 	if (i == -1)
 		return (-1);
@@ -84,6 +83,7 @@ int	check_if_valid(char **argv,  t_captains *log)
 	printf("exiting check_if_valid\n");
 	return (0);
 }
+
 void	initialise(int argc, char **argv, char **envp, t_captains *log)
 {
 	int	i;
@@ -103,10 +103,7 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 	log->arg_c = argc - 1;
 	log->cmmndswflgs = (char **)malloc(sizeof(char *) * (argc - 2));
 	if (!log->cmmndswflgs)
-	{
-		perror("pipex: initialise");
-		return ;
-	}
+		perror_exit(malloc, -1, log);	
 	i = 0;
 	while (i + 2 < log->arg_c)
 	{
