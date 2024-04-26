@@ -6,89 +6,81 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:59:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/25 18:55:25 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/26 14:59:39 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-void
 
-int	ft_child(char **envp, int fd_in, int fd_out, int fd_cls, t_captains *log)
+void	ft_child(char **envp, t_filedes *cripto, t_captains *log)
 {
-	close (fd_cls);
-	if (dup2(fd_in, STDIN_FILENO) == -1)
-	{
-		perror("pipex : dup2: ");
-		//ovo treba svaki put?
-	}
-	close (fd_in);
-	dup2(fd_out, STDOUT_FILENO);
-	close (fd_out);
+	if (cripto->fd_cls != -1)
+		close (cripto->fd_cls);
+	if (dup2(cripto->fd_in, STDIN_FILENO) == -1)
+		perror_exit("pipex : dup2: ");
+	close (cripto->fd_in);
+	if (dup2(cripto->fd_out, STDOUT_FILENO) == -1)
+		perror_exit("pipex : dup2: ");
+	close (cripto->fd_out);
 	execve(log->cmnd_path[log->cm_num], log->execve_args[log->cm_num], envp);
-	perror("pipex: execve: ");
-	exit(EXIT_FAILURE);
+	perror_exit("pipex: execve: ");
 }
 
-int	ft_parent(char **envp, t_captains *log, t_filedes *criptors)
+void	init_fds(t_captains *log, t_filedes *cripto, int i, int **fds, int old)
 {
-	pid_t	pid;
-	int		cm_num;
-	int		i;
-
-	cm_num = 0;
-	i = 0;
-	while (cm_num < log->arg_c - 4)
+	if (i == 0)
 	{
-		if (pipe(log->fds[i]) == -1)
-		{
-			perror("pipex: pipe: ");
-			exit(EXIT_FAILURE); //skontaj konacno	
-		}
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("pipex: pid");
-			exit(EXIT_FAILURE);
-		}
-		if (pid == 0)
-			ft_child(envp, log->fd_in, log->fds[i][1], log->fds[i][0], log);
+		cripto->fd_in = log->fd_in;
+		cripto->fd_out = *fds[1];
+		cripto->fd_cls = *fds[0];
+	}
+	else if (i == log->arg_c - 1)
+	{
+		cripto->fd_in = old;
+		cripto->fd_out = log->fd_out;
+		cripto->fd_cls = -1;	
+	}
+	else
+	{
+		cripto->fd_in = old;
+		cripto->fd_out = *fds[1];
+		cripto->fd_cls = *fds[0];
+	}
+}
+
+void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
+{
+	int fds[2];
+	int	oldfd;
+	int	i;
+
+	i = 0;
+	while (i < log->arg_c)
+	{
+		if (i != log->arg_c - 1 && pipe(fds) == -1)
+			perror_exit("pipex: pipe: ");
+		init_fds(log, cripto, i, &fds, oldfd);
+		oldfd = fds[0];
+		log->pids[i] = fork();
+		if (log->pids[i] == -1)
+				perror_exit("pipex: pid: ");
+		if (log->pids[i] == 0)
+			ft_child(envp, cripto->fd_in, cripto->fd_out, cripto->fd_cls, log);
 		else
 		{
-			wait(NULL);
-			close(log->fd_in);
-			close(log->fds[i][1]);
+			close(cripto->fd_in);
+			close(cripto->fd_out);
 		}
+		log->cm_num++;
 		i++;
-		cm_num++;
 	}
 }
 
-int	ft_pipex(char **envp, t_captains *log)
+void	ft_pipex(char **envp, t_captains *log)
 {
-	t_filedes	crptrs;
-	int			cm_num;
+	t_filedes	cripto;
 
-	cm_num = 0;
+	log->cm_num = 0;
 
-	while (cm_num < log->arg_c - 4)
-	{
-		if (cm_num == 0)
-		{
-			crptrs.fd_in = log->fd_in;
-		}
-	}
-	
-
-	while (log->cm_num < log->arg_c - 2) //check what is arg_c
-	{
-		if (log->cm_num == 0)
-		{
-			ft_parent(log, envp);
-		}
-		while (log->cm_num < log->arg_c - 3)
-		{
-			ft_parent()
-		}
-		if ()
-	}
+	ft_parent(envp, log, &cripto);
 }
