@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/23 15:42:56 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/26 16:20:52 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,10 @@ void	ft_perror(char *str, int fail)
 		write(2, "pipex: command not found: ", 26);
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
+	exit(EXIT_FAILURE);
+}
+void	perror_exit(char *str)
+{
+	perror(str);
+	exit(EXIT_FAILURE);
 }

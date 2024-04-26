@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:59:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/26 14:59:39 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/26 16:20:48 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_child(char **envp, t_filedes *cripto, t_captains *log)
 		perror_exit("pipex : dup2: ");
 	close (cripto->fd_out);
 	execve(log->cmnd_path[log->cm_num], log->execve_args[log->cm_num], envp);
-	perror_exit("pipex: execve: ");
+	ft_perror(log->execve_args[log->cm_num], 1);	
 }
 
 void	init_fds(t_captains *log, t_filedes *cripto, int i, int **fds, int old)
@@ -65,7 +65,7 @@ void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 		if (log->pids[i] == -1)
 				perror_exit("pipex: pid: ");
 		if (log->pids[i] == 0)
-			ft_child(envp, cripto->fd_in, cripto->fd_out, cripto->fd_cls, log);
+			ft_child(envp, cripto, log);
 		else
 		{
 			close(cripto->fd_in);
