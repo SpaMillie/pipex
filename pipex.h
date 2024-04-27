@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/27 13:48:55 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/27 13:57:49 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log);
 int		main(int argc, char **argv, char **envp);
 //error.c
 int		invalid_argument(void);
-void	free_everything(t_captains *log);
+void	free_to_cleanup(t_captains *log);
 void	free_triple(t_captains *log);
 // void	ft_perror(char *str, int fail);
 void	perror_exit(char *str, int to_free, t_captains *log);
