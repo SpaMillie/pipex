@@ -6,7 +6,7 @@
 #    By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/03 17:30:47 by mspasic           #+#    #+#              #
-#    Updated: 2024/04/17 18:31:24 by mspasic          ###   ########.fr        #
+#    Updated: 2024/04/27 13:45:51 by mspasic          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SOURCE_FILES = main.c \
 				error.c \
 				pipex_strjoin.c \
 				pipex_split.c \
-				is_it_valid.c
+				pipex.c 
 
 OBJECT_FILES = $(SOURCE_FILES:.c=.o)
 

@@ -155,43 +155,36 @@ static char	*ft_splitstr(const char *s, char c, int option)
 		if (option == 1 && prev_i != i)
 			return (ft_substr(s, prev_i, i - prev_i));
 		else if (prev_i != i)
-			return(ft_substr(s, prev_i, ft_strlen(s) - prev_i));
+			return (ft_substr(s, prev_i, ft_strlen(s) - prev_i));
 	}
 	return (NULL);
 }
 
-int	pipex_split(char *s, char c, t_captains *log, int com_num)
+void	pipex_split(char *s, char c, t_captains *log, int com_num)
 {
 	int		i;
 	int		c_word;
 
-	if (!s)
-		return (-1); 
+	// if (!s)
+	// 	return (-1);
 	c_word = count_word(s, c);
-	printf("words = %d\n", c_word);
 	i = 0;
-	log->execve_args[0][com_num] = ft_splitstr(s, c, 1);
+	log->execve_args[com_num][0] = ft_splitstr(s, c, 1);
 	printf("cmm1 is %s\n", log->execve_args[0][com_num]);
 	if (log->execve_args[0][com_num] == NULL)
-	{
-		free_all(log->execve_args[0]);
-		free_all(log->execve_args[1]);
-		return (-1);
-	}
+		perror_exit("malloc", -1, log);
 	if (c_word >= 2)
 	{
-		log->execve_args[1][com_num] = ft_splitstr(s, c, 2);
-		if (log->execve_args[1][com_num] == NULL)
-		{
-			free_all(log->execve_args[0]);
-			free_all(log->execve_args[1]);
-			return (-1);
-		}
+		log->execve_args[com_num][1] = ft_splitstr(s, c, 2);
+		if (log->execve_args[com_num][1] == NULL)
+			perror_exit("malloc", -1, log);
 	}
 	else
-		log->execve_args[1][com_num] = NULL;
-	return (0);
+		log->execve_args[com_num][1] = NULL;
+	log->execve_args[com_num][2] = NULL;
+	// return (0);
 }
+
 // #include <stdio.h>
 // int    main(void)
 // {

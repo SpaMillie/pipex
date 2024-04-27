@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/26 19:55:51 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/27 13:51:40 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,24 @@ int	invalid_argument(void)
 	return (0); //cant do this, use perror or strerror
 }
 char	**free_all(char **res);
-void	free_everything(t_captains *log)
+
+void	free_to_cleanup(t_captains *log)
 {
 	free(log->file1);
 	free(log->file2);
 	free(log->pids);
 	free_all(log->cmmndswflgs);
 	free_all(log->paths);
+}
+
+void	free_triple(t_captains *log)
+{
+	int	i;
+
+	i = 0;
+	while (*log->execve_args[i] != NULL)
+		free_all(log->execve_args[i++]);
+	free(log->execve_args);
 }
 
 // void	ft_perror(char *str, int fail)
@@ -43,6 +54,8 @@ void	perror_exit(char *str, int to_free, t_captains *log)
 	write (2, ": ", 2);
 	write(2, str, ft_strlen(str));
 	if (to_free == -1)
-		free_everything(log);
-	exit(EXIT_FAILURE);
+	{
+		free_to_cleanup(log);
+		exit(EXIT_FAILURE);
+	}
 }

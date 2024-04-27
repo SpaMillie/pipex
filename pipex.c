@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:59:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/26 18:36:53 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/27 13:44:01 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,22 @@ void	ft_child(char **envp, t_filedes *cripto, t_captains *log)
 		perror_exit("dup2", 1, log);
 	close (cripto->fd_out);
 	execve(log->cmnd_path[log->cm_num], log->execve_args[log->cm_num], envp);
-	perror_exit(log->execve_args[log->cm_num][0], 1, log);	
+	perror_exit(log->execve_args[log->cm_num][0], 1, log);
 }
 
-void	init_fds(t_captains *log, t_filedes *cripto, int i, int **fds, int old)
+void	init_fds(t_captains *log, t_filedes *cripto, int **fds, int old)
 {
-	if (i == 0)
+	if (cripto->i == 0)
 	{
 		cripto->fd_in = log->fd_in;
 		cripto->fd_out = *fds[1];
 		cripto->fd_cls = *fds[0];
 	}
-	else if (i == log->arg_c - 1)
+	else if (cripto->i == log->arg_c - 1)
 	{
 		cripto->fd_in = old;
 		cripto->fd_out = log->fd_out;
-		cripto->fd_cls = -1;	
+		cripto->fd_cls = -1;
 	}
 	else
 	{
@@ -50,21 +50,20 @@ void	init_fds(t_captains *log, t_filedes *cripto, int i, int **fds, int old)
 
 void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 {
-	int fds[2];
+	int	fds[2];
 	int	oldfd;
-	int	i;
 
-	i = 0;
-	while (i < log->arg_c)
+	cripto->i = 0;
+	while (cripto->i < log->arg_c)
 	{
-		if (i != log->arg_c - 1 && pipe(fds) == -1)
+		if (cripto->i != log->arg_c - 1 && pipe(fds) == -1)
 			perror_exit("pipe", -1, log);
-		init_fds(log, cripto, i, &fds, oldfd);
+		init_fds(log, cripto, &fds, oldfd);
 		oldfd = fds[0];
-		log->pids[i] = fork();
-		if (log->pids[i] == -1)
-				perror_exit("pid", -1, log);
-		if (log->pids[i] == 0)
+		log->pids[cripto->i] = fork();
+		if (log->pids[cripto->i] == -1)
+			perror_exit("pid", -1, log);
+		if (log->pids[cripto->i] == 0)
 			ft_child(envp, cripto, log);
 		else
 		{
@@ -72,9 +71,9 @@ void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 			close(cripto->fd_out);
 		}
 		log->cm_num++;
-		i++;
+		cripto->i++;
 	}
-	log->pids[i] = -2;
+	log->pids[cripto->i] = -2;
 }
 
 int	ft_pipex(char **envp, t_captains *log)

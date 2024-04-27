@@ -6,82 +6,62 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/26 20:38:01 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/27 13:50:54 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <stdio.h>
 
-int	allocate(t_captains *log)
+void	opening_files(char *file1, char *file2, t_captains *log)
 {
-	int	count;
-	printf("entering allocate\n");
-	count = 0;
-	while (log->cmmndswflgs[count] != NULL)
-		count++;
-	log->execve_args = (char ***)malloc((sizeof(char **) * (count + 1)));
-	if (log->execve_args == NULL)
-		return (-1);
-	log->flags = malloc((sizeof(char *) * (count + 1)));
-	if (log->flags == NULL)
-	{
-		free(log->cmnds);
-		return (-1);
-	}
-	printf("exiting allocate\n");
-	return (0);
+	printf("entering if_valid_file\n");
+	log->file1 = pipex_strjoin("./", file1, 0);
+	log->file2 = pipex_strjoin("./", file2, 0);
+	if (!log->file1 || !log->file2)
+		perror_exit("malloc", -1, log);
+	log->fd_in = open(file1, O_RDONLY);
+	if (log->fd_in == -1)
+		perror_exit(file1, 1, log);
+	log->fd_out = open(file2, O_WRONLY);
+	if (log->fd_out != -1)
+		return ;
+	perror_exit(file2, 1, log);
+	printf("exiting if_valid_file\n");
 }
 
-int	parsing_commands(t_captains *log, int count) //should you be putting perror everywhere?
-{
-	int	check;
-	printf("entering parsing_command\n");
-	count = allocate(log);
-	if (count == -1)
-		return (-1);
-	printf("count is %d\n", count);
-	while (log->cmmndswflgs[count] != NULL)
-	{
-		printf("commands with flags is %s\n", log->cmmndswflgs[count]);
-		check = pipex_split(log->cmmndswflgs[count], ' ', log, count);
-		if (check == -1)
-			return (-1);
-		printf("pointer issue %p\n", log->cmnds[0]);
-		count++;
-	}
-	printf("count is %d\n", count);
-	log->cmnds[count] = NULL;
-	log->flags[count] = NULL;
-	while (count--)
-	{
-		printf(" last element is %p\n", log->cmnds[count]);
-	}
-	printf("exiting parsing_command\n");
-	return (0);
-}
-
-int	check_if_valid(char **argv,  t_captains *log)
+void	allocate(t_captains *log)
 {
 	int	i;
-	printf("entering check_if_valid\n");
-	printf("argv outfile is %s\n", argv[log->arg_c - 1]);
-	if_valid_file(argv[0], argv[log->arg_c - 1], log); //opening_files
-	i = parsing_commands(log, 0);
-	if (i == -1)
-		return (-1);
-	printf(" first element is %p\n", *log->execve_args[0]);
-	while (i + 1 < log->arg_c - 1)
+
+	printf("entering allocate\n");
+	i = 0;
+	log->execve_args = (char ***)malloc((sizeof(char **) * (log->arg_c - 1)));
+	if (!log->execve_args)
+		perror_exit("malloc", -1, log);
+	while (i < log->arg_c - 1)
 	{
-		if (if_valid_command(log->execve_args[0][i], log, i) == -1)
-		{
-			ft_perror(log->execve_args[0][i], 1);
-			return (-1);
-		}
+		log->execve_args[i] = (char **)malloc(sizeof(char *) * 3);
+		if (!log->execve_args[i])
+			perror_exit("malloc", -1, log);
+	}
+	printf("exiting allocate\n");
+}
+
+void	open_n_parse(char **argv, t_captains *log)
+{
+	int	i;
+	printf("entering open_n_parse\n");
+	opening_files(argv[0], argv[log->arg_c - 1], log);
+	allocate(log);
+	i = 0;
+	while (log->cmmndswflgs[i] != NULL)
+	{
+		printf("commands with flags is %s\n", log->cmmndswflgs[i]);
+		pipex_split(log->cmmndswflgs[i], ' ', log, i);
 		i++;
 	}
-	printf("exiting check_if_valid\n");
-	return (0);
+	printf("exiting open_n_parse\n");
 }
 
 void	initialise(int argc, char **argv, char **envp, t_captains *log)
@@ -91,7 +71,7 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 	printf("entering initialise\n");
 	i = 0;
 	while (ft_strncmp(envp[i], "PATH=", 5) != 0)
-			i++;
+		i++;
 	log->paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (log->paths[i] != NULL)
@@ -108,7 +88,7 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 	while (i + 2 < log->arg_c)
 	{
 		log->cmmndswflgs[i] = ft_strdup(argv[i + 2]);
-		i++; 
+		i++;
 	}
 	log->cmmndswflgs[i] = NULL;
 	printf("exiting initialise\n");
@@ -123,15 +103,15 @@ int	main(int argc, char **argv, char **envp)
 	{
 		// log = (t_captains){0}; //look up compound literals
 		initialise(argc, argv, envp, &log);
-		check = check_if_valid(argv + 1, &log);
-		if (check == -1)
-		{
-			free_everything(&log);
-			return (1);
-		}
+		open_n_parse(argv + 1, &log);
+		// if (check == -1)
+		// {
+		// 	free_everything(&log);
+		// 	return (1);
+		// }
 		ft_pipex(envp, &log);
-		free_everything(&log);
+		free_to_cleanup(&log);
 	}
 	else
-		return(invalid_argument());
+		return (invalid_argument());
 }

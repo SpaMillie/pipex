@@ -16,4 +16,6 @@ testingfunc/testing.txt
 testingfunc/strerror
 testingfunc/strerror.c
 testingfunc/mallocing
+testingfunc/
+tests
 
