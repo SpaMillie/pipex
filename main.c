@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/27 13:50:54 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/27 14:33:38 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ void	opening_files(char *file1, char *file2, t_captains *log)
 	log->file1 = pipex_strjoin("./", file1, 0);
 	log->file2 = pipex_strjoin("./", file2, 0);
 	if (!log->file1 || !log->file2)
-		perror_exit("malloc", -1, log);
+		perror_exit("pipex: malloc", -1, log, 1);
 	log->fd_in = open(file1, O_RDONLY);
 	if (log->fd_in == -1)
-		perror_exit(file1, 1, log);
+		perror_exit(file1, 1, log, 2);
 	log->fd_out = open(file2, O_WRONLY);
 	if (log->fd_out != -1)
 		return ;
-	perror_exit(file2, 1, log);
-	printf("exiting if_valid_file\n");
+	perror_exit(file2, 1, log, 2);
 }
 
 void	allocate(t_captains *log)
@@ -38,12 +37,13 @@ void	allocate(t_captains *log)
 	i = 0;
 	log->execve_args = (char ***)malloc((sizeof(char **) * (log->arg_c - 1)));
 	if (!log->execve_args)
-		perror_exit("malloc", -1, log);
+		perror_exit("pipex: malloc", -1, log, 1);
 	while (i < log->arg_c - 1)
 	{
 		log->execve_args[i] = (char **)malloc(sizeof(char *) * 3);
 		if (!log->execve_args[i])
-			perror_exit("malloc", -1, log);
+			perror_exit("pipex: malloc", -1, log, 1);
+		i++;
 	}
 	printf("exiting allocate\n");
 }
@@ -59,6 +59,7 @@ void	open_n_parse(char **argv, t_captains *log)
 	{
 		printf("commands with flags is %s\n", log->cmmndswflgs[i]);
 		pipex_split(log->cmmndswflgs[i], ' ', log, i);
+		printf("i is %d\n", i);
 		i++;
 	}
 	printf("exiting open_n_parse\n");
@@ -83,11 +84,12 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 	log->arg_c = argc - 1;
 	log->cmmndswflgs = (char **)malloc(sizeof(char *) * (argc - 2));
 	if (!log->cmmndswflgs)
-		perror_exit(malloc, -1, log);	
+		perror_exit("pipex: malloc", -1, log, 1);	
 	i = 0;
 	while (i + 2 < log->arg_c)
 	{
 		log->cmmndswflgs[i] = ft_strdup(argv[i + 2]);
+		printf("commands with flags is %s\n", log->cmmndswflgs[i]);
 		i++;
 	}
 	log->cmmndswflgs[i] = NULL;
@@ -96,7 +98,7 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 
 int	main(int argc, char **argv, char **envp)
 {
-	int			check;
+	// int			check;
 	t_captains	log;
 
 	if (argc == 5) //for bonus >= 5

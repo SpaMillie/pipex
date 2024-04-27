@@ -1,6 +1,7 @@
 //insert header
 
 #include "pipex.h"
+#include <stdio.h>
 
 // #include <stdio.h>
 // #include <stdlib.h>
@@ -167,21 +168,25 @@ void	pipex_split(char *s, char c, t_captains *log, int com_num)
 
 	// if (!s)
 	// 	return (-1);
+	printf("entering pipex_split\n");
 	c_word = count_word(s, c);
+	printf("c-word = %d\n", c_word);
 	i = 0;
 	log->execve_args[com_num][0] = ft_splitstr(s, c, 1);
-	printf("cmm1 is %s\n", log->execve_args[0][com_num]);
-	if (log->execve_args[0][com_num] == NULL)
-		perror_exit("malloc", -1, log);
+	printf("cmm1 is %s\n", log->execve_args[com_num][0]);
+	if (log->execve_args[com_num][0] == NULL)
+		perror_exit("pipex: malloc", -1, log, 1);
 	if (c_word >= 2)
 	{
 		log->execve_args[com_num][1] = ft_splitstr(s, c, 2);
 		if (log->execve_args[com_num][1] == NULL)
-			perror_exit("malloc", -1, log);
+			perror_exit("pipex: malloc", -1, log, 1);
 	}
 	else
 		log->execve_args[com_num][1] = NULL;
+	printf("allocated\n");
 	log->execve_args[com_num][2] = NULL;
+	printf("exiting pipex_split\n");
 	// return (0);
 }
 

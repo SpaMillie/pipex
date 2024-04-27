@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/27 13:57:49 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/27 14:31:24 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ int		invalid_argument(void);
 void	free_to_cleanup(t_captains *log);
 void	free_triple(t_captains *log);
 // void	ft_perror(char *str, int fail);
-void	perror_exit(char *str, int to_free, t_captains *log);
+void	perror_exit(char *str, int to_free, t_captains *log, int option);
 //pipex.c
 void	ft_child(char **envp, t_filedes *cripto, t_captains *log);
-void	init_fds(t_captains *log, t_filedes *cripto, int **fds, int old);
+void	init_fds(t_captains *log, t_filedes *cripto, int *fds, int old);
 void	ft_parent(char **envp, t_captains *log, t_filedes *cripto);
 int		ft_pipex(char **envp, t_captains *log);
 //pipex_strjoin.c
