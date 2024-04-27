@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/27 14:31:01 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/27 15:52:25 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ void	perror_exit(char *str, int to_free, t_captains *log, int option)
 {
 	if (option == 1)
 		perror(str);
+	else if (option == 3)
+	{
+		write(2, "pipex: ", 8);
+		write(2, str, (ft_strlen(str) + 1));
+		write(2, ": command not found\n", 21);
+	}
 	else
 	{
 		write(2, "pipex: ", 8);

@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:59:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/27 14:36:03 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/27 17:37:13 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_child(char **envp, t_filedes *cripto, t_captains *log)
 {
+	printf("entering ft_child\n");
 	if (cripto->fd_cls != -1)
 		close (cripto->fd_cls);
 	if (dup2(cripto->fd_in, STDIN_FILENO) == -1)
@@ -22,19 +23,22 @@ void	ft_child(char **envp, t_filedes *cripto, t_captains *log)
 	if (dup2(cripto->fd_out, STDOUT_FILENO) == -1)
 		perror_exit("pipex: dup2", 1, log, 1);
 	close (cripto->fd_out);
+	printf("exiting ft_child\n");
+	printf("command with path is %s and the pointer is %p\n", log->cmnd_path[log->cm_num], log->cmnd_path);
 	execve(log->cmnd_path[log->cm_num], log->execve_args[log->cm_num], envp);
 	perror_exit(log->execve_args[log->cm_num][0], 1, log, 2);
 }
 
 void	init_fds(t_captains *log, t_filedes *cripto, int *fds, int old)
 {
+	printf("entering init_fds\n");
 	if (cripto->i == 0)
 	{
 		cripto->fd_in = log->fd_in;
 		cripto->fd_out = fds[1];
 		cripto->fd_cls = fds[0];
 	}
-	else if (cripto->i == log->arg_c - 1)
+	else if (cripto->i == log->arg_c - 3)
 	{
 		cripto->fd_in = old;
 		cripto->fd_out = log->fd_out;
@@ -46,17 +50,19 @@ void	init_fds(t_captains *log, t_filedes *cripto, int *fds, int old)
 		cripto->fd_out = fds[1];
 		cripto->fd_cls = fds[0];
 	}
+	printf("fdin is %d and fdout is %d and fdcls is %d\n", cripto->fd_in, cripto->fd_out, cripto->fd_cls);
+	printf("exiting init_fds\n");
 }
 
 void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 {
 	int	fds[2];
 	int	oldfd;
-
+	printf("entering ft_parent\n");
 	cripto->i = 0;
-	while (cripto->i < log->arg_c)
+	while (cripto->i < log->arg_c - 2)
 	{
-		if (cripto->i != log->arg_c - 1 && pipe(fds) == -1)
+		if (cripto->i != log->arg_c - 3 && pipe(fds) == -1)
 			perror_exit("pipex: pipe", -1, log, 1);
 		init_fds(log, cripto, fds, oldfd);
 		oldfd = fds[0];
@@ -67,6 +73,8 @@ void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 			ft_child(envp, cripto, log);
 		else
 		{
+			printf("pid of the child is %d\n", log->pids[cripto->i]);
+			printf("fdin is %d and fdout is %d and fdcls is %d\n", cripto->fd_in, cripto->fd_out, cripto->fd_cls);
 			close(cripto->fd_in);
 			close(cripto->fd_out);
 		}
@@ -74,19 +82,25 @@ void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 		cripto->i++;
 	}
 	// log->pids[cripto->i] = -2;
+	printf("exiting ft_parent\n");
 }
 
 int	ft_pipex(char **envp, t_captains *log)
 {
 	t_filedes	cripto;
 	int			i;
+	int			status;
 
+	printf("entering ft_pipex\n");
 	log->cm_num = 0;
 	i = 0;
 	log->pids = (int *)malloc(sizeof(int) * (log->arg_c - 2));
 	if (!log->pids)
 		perror_exit("pipex: malloc", -1, log, 1);
 	ft_parent(envp, log, &cripto);
-	wait(log->pids);
+	i = 0;
+	while (i < log->arg_c - 2)
+		waitpid(log->pids[i], &status, 0);
 	return (0);
+	printf("exiting ft_pipex\n");
 }
