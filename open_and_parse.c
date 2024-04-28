@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:46 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/28 16:44:27 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/28 17:59:21 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,6 @@ void	pathfinder(t_captains *log, int com_num, char *command)
 void	opening_files(char *file1, char *file2, t_captains *log)
 {
 	printf("entering OPENING_FILES\n");
-	log->file1 = pipex_strjoin("./", file1, 0);
-	log->file2 = pipex_strjoin("./", file2, 0);
-	if (!log->file1 || !log->file2)
-		perror_exit("pipex: malloc", -1, log, 1);
 	log->fd_in = open(file1, O_RDONLY);
 	if (log->fd_in == -1)
 		perror_exit(file1, 1, log, 2);
@@ -56,31 +52,11 @@ void	opening_files(char *file1, char *file2, t_captains *log)
 	perror_exit(file2, 1, log, 2);
 }
 
-void	allocate(t_captains *log)
-{
-	int	i;
-
-	printf("entering allocate\n");
-	i = 0;
-	log->execve_args = (char ***)malloc((sizeof(char **) * (log->arg_c - 1)));
-	if (!log->execve_args)
-		perror_exit("pipex: malloc", -1, log, 1);
-	while (i < log->arg_c - 1)
-	{
-		log->execve_args[i] = (char **)malloc(sizeof(char *) * 3);
-		if (!log->execve_args[i])
-			perror_exit("pipex: malloc", -1, log, 1);
-		i++;
-	}
-	printf("exiting allocate\n");
-}
-
 void	open_n_parse(char **argv, t_captains *log)
 {
 	int	i;
 	printf("entering open_n_parse\n");
 	opening_files(argv[0], argv[log->arg_c - 1], log);
-	allocate(log);
 	i = 0;
 	while (log->cmmndswflgs[i] != NULL)
 	{

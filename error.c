@@ -6,16 +6,21 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/28 13:49:37 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/28 19:34:19 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	invalid_argument(void)
+int	invalid_argument(int option, t_captains *log, char *str, int com_num)
 {
+	if (option == 1)
+	{
+		log->execve_args[com_num][0] = str;
+		perror_exit(str, 1, log, 3);
+	}
 	write(1, "pipex: invalid arguments\n", 26);
-	return (0); //cant do this, use perror or strerror
+	return (0);
 }
 char	**free_all(char **res);
 

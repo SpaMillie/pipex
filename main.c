@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/28 13:37:49 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/28 18:52:27 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,5 @@ int	main(int argc, char **argv, char **envp)
 		free_to_cleanup(&log);
 	}
 	else
-		return (invalid_argument());
+		return (invalid_argument(0, &log, NULL, 0));
 }

@@ -1,15 +1,17 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int	main(int argc, char **argv)
+int	main(void)
 {
-	if (argc > 1)
-	{
-		if (execve("./nonexistant.c", argv + 1, NULL) == -1)
-		{	
-			perror("execve");
-			return 1;
-		}
-		write(1, "no can do\n", 11);
-	}
+	char *str[] = {"/usr/bin/awk", "{print $0}", "yu.txt", NULL};
+	execve(str[0], str, NULL);
+	perror("execve");
 }
+
+/* 
+execve is a system call
+ - it takes three args
+ - the first argument is the path to the command
+ - the second (set) of args is the flags and other
+ - the last set is the env variable
+ */
