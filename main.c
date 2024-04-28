@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/27 18:04:34 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/28 13:37:49 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 	log->arg_c = argc - 1;
 	log->cmmndswflgs = (char **)malloc(sizeof(char *) * (argc - 2));
 	if (!log->cmmndswflgs)
-		perror_exit("pipex: malloc", -1, log, 1);	
-	i = 0;
+		perror_exit("pipex: malloc", -1, log, 1);
+	log->cmnd_path = (char **)malloc(sizeof(char *) * (argc - 2));
+	if (!log->cmnd_path)
+		perror_exit("pipex: malloc", -1, log, 1);i = 0;
 	while (i + 2 < log->arg_c)
 	{
 		log->cmmndswflgs[i] = ft_strdup(argv[i + 2]);

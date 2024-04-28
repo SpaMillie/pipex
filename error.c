@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/27 15:52:25 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/28 13:49:37 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ void	free_to_cleanup(t_captains *log)
 	free(log->file1);
 	free(log->file2);
 	free(log->pids);
+	free_all(log->cmnd_path);
 	free_all(log->cmmndswflgs);
 	free_all(log->paths);
+	free_triple(log);
 }
 
 void	free_triple(t_captains *log)
