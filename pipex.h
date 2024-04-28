@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/28 19:46:03 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/28 19:49:34 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int		ft_pipex(char **envp, t_captains *log);
 //pipex_strjoin.c
 char	*pipex_strjoin(char *s1, char *s2, int seq);
 //pipex_split.c
-void	*ft_splitstr(const char *s, t_captains *log, int com_num);
 void	pipex_split(char *s, char c, t_captains *log, int com_num);
 //pipex_substr.c
 char	*pipex_substr(char const *s, unsigned int strt, size_t len,

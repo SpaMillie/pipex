@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 19:21:50 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/28 19:45:46 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/28 19:49:24 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	**free_all(char **res);
 // 	return (0);
 // }
 
-void	*ft_splitstr(const char *s, t_captains *log, int com_num)
+static void	ft_splitstr(const char *s, t_captains *log, int com_num)
 {
 	int	prev_i;
 	int	i;

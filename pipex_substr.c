@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 19:11:30 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/28 19:42:37 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/28 19:50:37 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 char	*pipex_substr(char const *s, unsigned int strt, size_t len, \
 	t_captains *log)
 {
-	char			*sub_s;
-	size_t			str_len;
+	char	*sub_s;
 
 	sub_s = (char *)malloc(len + 1);
 	if (sub_s == NULL)
