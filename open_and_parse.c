@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:46 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/28 14:24:15 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/28 16:44:27 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	pathfinder(t_captains *log, int com_num, char *command)
 	printf("ENTERING PATHFINDER\n");
 	i = 0;
 	printf("%s and %d\n", log->paths[i], i);
-	
-	//check if it it's with a path and if it is save handle it for split
+	if (access(command, X_OK) != -1)
+		return ;
 	while (log->paths[i] != NULL)
 	{
 		if (i != 0)
@@ -31,17 +31,13 @@ void	pathfinder(t_captains *log, int com_num, char *command)
 			perror_exit("pipex: malloc", -1, log, 1);
 		if (access(log->cmnd_path[com_num], X_OK) != -1)
 		{
+			log->execve_args[com_num][0] = log->cmnd_path[com_num];
 			printf("command with path is %s\n", log->cmnd_path[com_num]);
 			printf("exiting pathfinder\n");
 			return ;
 		}
 		i++;
 	}
-	free(log->cmnd_path[com_num]);
-	log->cmnd_path[com_num] = command; //mozda treba strdup
-	printf("com_path je %s\n", log->cmnd_path[com_num]);
-	printf("erroring in pathfinder\n");
-	// return ;
 }
 
 void	opening_files(char *file1, char *file2, t_captains *log)

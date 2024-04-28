@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:59:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/27 17:37:13 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/28 16:34:44 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	ft_child(char **envp, t_filedes *cripto, t_captains *log)
 	close (cripto->fd_out);
 	printf("exiting ft_child\n");
 	printf("command with path is %s and the pointer is %p\n", log->cmnd_path[log->cm_num], log->cmnd_path);
-	execve(log->cmnd_path[log->cm_num], log->execve_args[log->cm_num], envp);
+	execve(log->execve_args[log->cm_num][0], log->execve_args[log->cm_num], \
+		envp);
 	perror_exit(log->execve_args[log->cm_num][0], 1, log, 2);
 }
 
