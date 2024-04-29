@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/29 14:38:14 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/29 17:52:36 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	free_triple(t_captains *log)
 // }
 void	perror_exit(char *str, int to_free, t_captains *log, int option)
 {
+	if (to_free == -1)
+		log->err_no = -2;
 	if (log->err_no != -1)
 	{
 		if (option == 1)

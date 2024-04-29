@@ -3,7 +3,7 @@
 
 int	main(void)
 {
-	char *str[] = {"/usr/bin/awk", "{print $0}", "yu.txt", NULL};
+	char *str[] = {"outfile", NULL};
 	execve(str[0], str, NULL);
 	perror("execve");
 }

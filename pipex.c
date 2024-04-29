@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:59:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/29 14:18:26 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/29 19:03:41 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,20 @@ int	init_fds(t_captains *log, t_filedes *cripto, int *fds, int old)
 	// //printf("entering init_fds\n");
 	if (cripto->i == 0)
 	{
-		if (log->fd_in == -1)
-			return (-1);
 		cripto->fd_in = log->fd_in;
 		cripto->fd_out = fds[1];
 		cripto->fd_cls = fds[0];
+		if (log->fd_in == -1)
+			return (-1);
 	}
 	else if (cripto->i == log->arg_c - 3)
 	{
 		// //printf("outfile fd is %d\n", log->fd_out);
-		if (log->fd_out == -1)
-			return (-1);
 		cripto->fd_in = old;
 		cripto->fd_out = log->fd_out;
 		cripto->fd_cls = -2;
+		if (log->fd_out == -1)
+			return (-1);	
 	}
 	else
 	{
@@ -70,13 +70,6 @@ void	forking(char **envp, t_captains *log, t_filedes *cripto)
 		perror_exit("pipex: pid", -1, log, 1);
 	if (log->pids[cripto->i] == 0)
 		ft_child(envp, cripto, log);
-	else
-	{
-		// //printf("pid of the child is %d\n", log->pids[cripto->i]);
-		// //printf("fdin is %d and fdout is %d and fdcls is %d\n", cripto->fd_in, cripto->fd_out, cripto->fd_cls);
-		close(cripto->fd_in);
-		close(cripto->fd_out);
-	}
 }
 
 void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
@@ -95,6 +88,10 @@ void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 		oldfd = fds[0];
 		if (to_f_or_not != -1)
 			forking(envp, log, cripto);
+		if (cripto->fd_in != -1)
+			close(cripto->fd_in);
+		if (cripto->fd_out != -1)
+			close(cripto->fd_out);
 		log->cm_num++;
 		cripto->i++;
 	}

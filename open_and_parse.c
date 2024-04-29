@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:46 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/29 15:18:15 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/29 18:23:52 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,30 @@ void	pathfinder(t_captains *log, int com_num, char *command)
 	//printf("ENTERING PATHFINDER\n");
 	i = 0;
 	//printf("%s and %d\n", log->paths[i], i);
-	if (access(command, X_OK) != -1)
+	if (ft_strchr(command, '/') != NULL && access(command, X_OK) != -1)
 		return ;
-	while (log->paths[i] != NULL)
+	if (ft_strchr(command, '/') == NULL)
 	{
-		if (i != 0)
-			free(log->cmnd_path[com_num]);
-		//printf("the path is %s and %d\n", log->paths[i], i);
-		//printf("com_num is %d\n", com_num);
-		log->cmnd_path[com_num] = pipex_strjoin(log->paths[i], command, 0);
-		if (!log->cmnd_path[com_num])
-			perror_exit("pipex: malloc", -1, log, 1);
-		if (access(log->cmnd_path[com_num], X_OK) != -1)
+		while (log->paths[i] != NULL)
 		{
-			log->execve_args[com_num][0] = log->cmnd_path[com_num];
-			//printf("command with path is %s\n", log->cmnd_path[com_num]);
-			//printf("exiting pathfinder\n");
-			return ;
+			if (i != 0)
+				free(log->cmnd_path[com_num]);
+			//printf("the path is %s and %d\n", log->paths[i], i);
+			//printf("com_num is %d\n", com_num);
+			log->cmnd_path[com_num] = pipex_strjoin(log->paths[i], command, 0);
+			if (!log->cmnd_path[com_num])
+				perror_exit("pipex: malloc", -1, log, 1);
+			if (access(log->cmnd_path[com_num], X_OK) != -1)
+			{
+				log->execve_args[com_num][0] = log->cmnd_path[com_num];
+				//printf("command with path is %s\n", log->cmnd_path[com_num]);
+				//printf("exiting pathfinder\n");
+				return ;
+			}
+			i++;
 		}
-		i++;
 	}
+	perror_exit(command, 1, log, 3);
 }
 
 void	opening_files(char *file1, char *file2, t_captains *log)
