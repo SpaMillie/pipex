@@ -18,3 +18,4 @@ testingfunc/strerror.c
 testingfunc/mallocing
 testingfunc/
 tests
+testtext

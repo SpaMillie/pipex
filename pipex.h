@@ -6,17 +6,18 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/29 14:32:01 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/29 15:22:23 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
-# include <unistd.h>
-# include <fcntl.h>
-# include <stdlib.h>
+# include <unistd.h> //need
+# include <fcntl.h> //need
+// # include <stdlib.h>
 # include <stdio.h>
-# include <sys/wait.h>
+# include <sys/wait.h> //need
+# include <errno.h> //need
 # include "Libft/include/libft.h"
 //check which headers you need 
 typedef struct s_captains
