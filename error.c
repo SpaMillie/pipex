@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/28 19:34:19 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/29 14:38:14 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	free_to_cleanup(t_captains *log)
 	free(log->file1);
 	free(log->file2);
 	free(log->pids);
-	free_all(log->cmnd_path);
+	free(log->cmnd_path);
 	free_all(log->cmmndswflgs);
 	free_all(log->paths);
 	free_triple(log);
@@ -40,7 +40,7 @@ void	free_triple(t_captains *log)
 	int	i;
 
 	i = 0;
-	while (*log->execve_args[i] != NULL)
+	while (log->execve_args[i] != NULL)
 		free_all(log->execve_args[i++]);
 	free(log->execve_args);
 }
@@ -57,18 +57,22 @@ void	free_triple(t_captains *log)
 // }
 void	perror_exit(char *str, int to_free, t_captains *log, int option)
 {
-	if (option == 1)
-		perror(str);
-	else if (option == 3)
+	if (log->err_no != -1)
 	{
-		write(2, "pipex: ", 8);
-		write(2, str, (ft_strlen(str) + 1));
-		write(2, ": command not found\n", 21);
-	}
-	else
-	{
-		write(2, "pipex: ", 8);
-		perror(str);
+		if (option == 1)
+			perror(str);
+		else if (option == 3)
+		{
+			write(2, "pipex: ", 8);
+			write(2, str, (ft_strlen(str) + 1));
+			write(2, ": command not found\n", 21);
+		}
+		else
+		{
+			write(2, "pipex: ", 8);
+			perror(str);
+		}
+		log->err_no = -1;
 	}
 	if (to_free == -1)
 	{

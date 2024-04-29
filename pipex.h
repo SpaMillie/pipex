@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/28 19:49:34 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/29 14:32:01 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_captains
 	int		fd_out;
 	int		arg_c;
 	int		cm_num;
+	int		err_no;
 	int		*pids;
 	char	*file1;
 	char	*file2;
@@ -44,6 +45,7 @@ typedef struct s_filedes
 }	t_filedes;
 
 //main.c
+void	init_cmndsflgs(t_captains *log, char **argv);
 void	initialise(int argc, char **argv, char **envp, t_captains *log);
 int		main(int argc, char **argv, char **envp);
 //error.c
@@ -58,7 +60,8 @@ void	opening_files(char *file1, char *file2, t_captains *log);
 void	open_n_parse(char **argv, t_captains *log);
 //pipex.c
 void	ft_child(char **envp, t_filedes *cripto, t_captains *log);
-void	init_fds(t_captains *log, t_filedes *cripto, int *fds, int old);
+int		init_fds(t_captains *log, t_filedes *cripto, int *fds, int old);
+void	forking(char **evnp, t_captains *log, t_filedes *cripto);
 void	ft_parent(char **envp, t_captains *log, t_filedes *cripto);
 int		ft_pipex(char **envp, t_captains *log);
 //pipex_strjoin.c

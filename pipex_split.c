@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 19:21:50 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/28 19:49:24 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/29 13:50:36 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 static void	allocate(t_captains *log, int words, int com_num)
 {
 	int	i;
-	printf("entering allocate\n");
+	// //printf("entering allocate\n");
 	i = log->arg_c - 1;
 	if (com_num == 0)
 	{
 		log->execve_args = (char ***)malloc((sizeof(char **) * i));
 		if (!log->execve_args)
 			perror_exit("pipex: malloc", -1, log, 1);
+		log->execve_args[i - 1] = NULL;
 	}
 	log->execve_args[com_num] = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!log->execve_args[com_num])
 		perror_exit("pipex: malloc", -1, log, 1);
-	printf("exiting allocate\n");
+	// //printf("exiting allocate\n");
 }
 
 static int	ft_skip(const char *s, char c, int i)
@@ -104,20 +105,20 @@ void	pipex_split(char *s, char c, t_captains *log, int com_num)
 {
 	int		c_word;
 
-	printf("entering pipex_split\n");
+	// //printf("entering pipex_split\n");
 	c_word = count_word(s, c);
 	if (c_word == 0)
 	{
 		invalid_argument(1, log, s, com_num);
 		return ;
 	}
-	printf("c-word = %d\n", c_word);
+	// //printf("c-word = %d\n", c_word);
 	allocate(log, c_word, com_num);
 	ft_splitstr(s, log, com_num);
-	printf("command is %s\n", log->execve_args[com_num][0]);
-	printf("allocated\n");
+	// //printf("command is %s\n", log->execve_args[com_num][0]);
+	// //printf("allocated\n");
 	log->execve_args[com_num][c_word] = NULL;
-	printf("exiting pipex_split\n");
+	// //printf("exiting pipex_split\n");
 }
 
 // #include <stdio.h>
@@ -127,15 +128,15 @@ void	pipex_split(char *s, char c, t_captains *log, int com_num)
 // 	char *s = "      split       this for   me  !       ";
 
 //         char **ns = ft_split(s, ' ');
-// 		printf("%p\n", ns);
+// 		//printf("%p\n", ns);
 
-// 	// printf("Result 1:\n");
+// 	// //printf("Result 1:\n");
 // 	// if (!ns)
-// 	// 	printf("Test\n");
+// 	// 	//printf("Test\n");
 // 	// if (ns[0])
-// 	// 	printf("Ok\n");
+// 	// 	//printf("Ok\n");
 //     for (int i = 0; ns[i] != 0; i++) {
-//         printf("[%d]: %s\n", i, ns[i]);
+//         //printf("[%d]: %s\n", i, ns[i]);
 //         free(ns[i]);
 //     }
 // 	free (ns);
