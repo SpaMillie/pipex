@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/29 14:31:41 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/29 20:16:33 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_cmndsflgs(t_captains *log, char **argv)
 		i++;
 	}
 	log->cmmndswflgs[i] = NULL;
+	log->err_no = -2;
 }
 
 void	initialise(int argc, char **argv, char **envp, t_captains *log)
@@ -33,14 +34,17 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 
 	// //printf("entering initialise\n");
 	i = 0;
-	while (ft_strncmp(envp[i], "PATH=", 5) != 0)
+	while (envp[i] != NULL && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
-	log->paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (log->paths[i] != NULL)
+	if (envp[i] != NULL)
 	{
-		log->paths[i] = pipex_strjoin(log->paths[i], "/", 1);
-		i++;
+		log->paths = ft_split(envp[i] + 5, ':');
+		i = 0;
+		while (log->paths[i] != NULL)
+		{
+			log->paths[i] = pipex_strjoin(log->paths[i], "/", 1);
+			i++;
+		}
 	}
 	i = 0;
 	log->arg_c = argc - 1;
@@ -52,7 +56,6 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 		perror_exit("pipex: malloc", -1, log, 1);
 	log->cmnd_path[argc - 3] = NULL;
 	init_cmndsflgs(log, argv);
-	log->err_no = -2;
 	//printf("exiting initialise\n");
 }
 
@@ -63,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc == 5) //for bonus >= 5
 	{
-		// log = (t_captains){0}; //look up compound literals
+		log = (t_captains){0};
 		initialise(argc, argv, envp, &log);
 		open_n_parse(argv + 1, &log);
 		// if (check == -1)

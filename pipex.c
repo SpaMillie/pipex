@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:59:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/29 19:03:41 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/29 19:12:43 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ int	init_fds(t_captains *log, t_filedes *cripto, int *fds, int old)
 	else if (cripto->i == log->arg_c - 3)
 	{
 		// //printf("outfile fd is %d\n", log->fd_out);
+		if (log->fd_out == -1)
+			return (-1);
 		cripto->fd_in = old;
 		cripto->fd_out = log->fd_out;
 		cripto->fd_cls = -2;
-		if (log->fd_out == -1)
-			return (-1);	
 	}
 	else
 	{
