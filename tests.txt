@@ -1,0 +1,92 @@
+/**************************************************************/
+/*															  */
+/*						ALL THE TESTS  				     	  */
+/*							I'VE FOUND                        */
+/*						AND                                   */
+/*							THOUGHT OF                        */
+/*                                                            */
+/**************************************************************/
+
+██████╗ ██╗██████╗ ███████╗██╗  ██╗    ████████╗ ███████╗ ██████╗ ████████╗██████╗ 
+██╔══██╗██║██╔══██╗██╔════╝╚██╗██╔╝   	██╔══╝ ██╔════╝ ██╔═══╝    ██╔══╝██╔═══╝ 
+██████╔╝██║██████╔╝█████╗   ╚███╔╝        ██║	   █████╗   ██████╗	   ██║   ██████╗ 	 
+██╔═══╝ ██║██╔═══╝ ██╔══╝   ██╔██╗        ██║	   ██╔══╝  	    ██║    ██║       ██║ 
+██║     ██║██║     ███████╗██╔╝ ██╗       ██║    ███████╗ ██████║    ██║   ██████║ 
+╚═╝     ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝       ╚═╝    ╚══════╝ ╚═════╝    ╚═╝  ╚══════╝ 
+
+
+/********/
+/*		*/
+/*	ls	*/
+/*  	*/
+/********/
+
+command: ls -a -F -G -l -O
+
+/********/
+/*		*/
+/*	cat	*/
+/*  	*/
+/********/
+
+
+
+/************/
+/*			*/
+/*	grep	*/
+/*  		*/
+/************/
+command: infile "grep 'how'" "wc -l" outfile
+bash output:
+pipex output: 
+
+/********/
+/*		*/
+/*	wc	*/
+/*  	*/
+/********/
+
+
+/********/
+/*		*/
+/*	awk	*/
+/*  	*/
+/********/
+
+
+/************/
+/*			*/
+/*	echo	*/
+/*  		*/
+/************/
+command: echo $HOME
+zsh: /Users/$User
+pipex: /Users/$User
+
+command: echo $HOM
+zsh: ""
+pipex: ""
+
+command: echo "$HOME"
+zsh: /Users/$User
+pipex: /Users/$User
+
+command: echo '$HOME'
+zsh: $HOME
+pipex: //loops [[TO FIX]]
+issue: when parsing single quotes, pipex loops and never stops
+
+command: echo "djhfsdjh" > outfile
+issue - when you run it in the shell, it doesn't add the new line, but in execve echo it does?
+[FIXED] 
+solution: use the correct flags with open lmao
+
+/********/
+/*		*/
+/*		*/
+/*  	*/
+/********/
+
+
+
+

@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:46 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/29 20:16:24 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/04/30 18:53:55 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	opening_files(char *file1, char *file2, t_captains *log)
 	log->fd_in = open(file1, O_RDONLY);
 	if (log->fd_in == -1)
 		perror_exit(file1, 1, log, 2);
-	log->fd_out = open(file2, O_WRONLY | O_CREAT | O_EXCL, 444);
+	log->fd_out = open(file2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (log->fd_out == -1 && (EEXIST == errno))
 		log->fd_out = open(file2, O_WRONLY);
 	if (log->fd_out != -1)
