@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:46 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/30 18:53:55 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/01 19:28:26 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	pathfinder(t_captains *log, int com_num, char *command)
 		}
 	}
 	perror_exit(command, 1, log, 3);
+	log->execve_args[com_num][0][0] = 9;
 }
 
 void	opening_files(char *file1, char *file2, t_captains *log)
@@ -51,10 +52,9 @@ void	opening_files(char *file1, char *file2, t_captains *log)
 	if (log->fd_in == -1)
 		perror_exit(file1, 1, log, 2);
 	log->fd_out = open(file2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (log->fd_out == -1 && (EEXIST == errno))
-		log->fd_out = open(file2, O_WRONLY);
 	if (log->fd_out != -1)
 		return ;
+	log->err_no = -2;
 	perror_exit(file2, 1, log, 2);
 }
 
@@ -67,7 +67,7 @@ void	open_n_parse(char **argv, t_captains *log)
 	while (log->cmmndswflgs[i] != NULL)
 	{
 		//printf("commands with flags is %s\n", log->cmmndswflgs[i]);
-		pipex_split(log->cmmndswflgs[i], ' ', log, i);
+		pipex_split(log->cmmndswflgs[i], log, i);
 		//printf("i is %d\n", i);
 		i++;
 	}

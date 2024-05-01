@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 19:21:50 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/30 20:53:49 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/01 18:36:54 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,26 @@ static void	allocate(t_captains *log, int words, int com_num)
 	// //printf("exiting allocate\n");
 }
 
-static int	ft_skip(const char *s, char c, int i)
+static int	resolve(char *s, char c, int i, t_captains *log)
 {
 	while (s[i] && s[i] != c)
-		i++;
-	return (i + 1);
+	{
+		if ((s[i] == '\'' || s[i] == '\"') && s[i - 1] == 32)
+		{
+			if (check_for_c(s, s[i]) == 2)
+			{
+				ft_transform(s, s[i]);
+				log->c = 7;
+				return (-2);
+			}
+		}
+		else
+			i++;
+	}
+	return (i);
 }
 
-static int	count_word(const char *s, char c)
+static int	count_word(char *s, char c, t_captains *log)
 {
 	int	words;
 	int	i;
@@ -50,12 +62,11 @@ static int	count_word(const char *s, char c)
 		while (s[i] && s[i] == c)
 			i++;
 		prev_i = i;
-		while (s[i] && s[i] != c)
+		if (s[i] && s[i] != c)
 		{
-			if (s[i] == '\'' || s[i] == '\"')
-				i = ft_skip(s, s[i], i + 1);
-			else
-				i++;
+			i = resolve(s, c, i, log);
+			if (i == -2)
+				return (count_word(s, log->c, log));
 		}
 		if (prev_i != i)
 			words++;
@@ -84,30 +95,28 @@ static void	ft_splitstr(char *s, t_captains *log, int com_num)
 	j = 0;
 	while (s[i])
 	{
-		while (s[i] && s[i] == 32)
+		while (s[i] && s[i] == log->c)
 			i++;
 		prev_i = i;
-		while (s[i] && s[i] != 32)
-		{
-			if (s[i] == '\'' || s[i] == '\"')
-				i = ft_skip(s, s[i], i + 1);
-			else
-				i++;
-		}
+		while (s[i] && s[i] != log->c)
+			i++;
 		if (prev_i != i)
 			log->execve_args[com_num][j++] = pipex_substr(s, \
 				prev_i, i - prev_i, log);
 	}
-	return ;
 }
 
-void	pipex_split(char *s, char c, t_captains *log, int com_num)
+void	pipex_split(char *s, t_captains *log, int com_num)
 {
 	int		c_word;
+	int		i;
 
 	printf("entering pipex_split\n");
-	c_word = count_word(s, c);
-	if (c_word == 0)
+	log->c = 32;
+	i = 0;
+	c_word = count_word(s, log->c, log);
+	printf("count word is %d\n", c_word);
+	if (c_word < 1)
 	{
 		invalid_argument(1, log, s, com_num);
 		return ;
@@ -115,7 +124,7 @@ void	pipex_split(char *s, char c, t_captains *log, int com_num)
 	printf("c-word = %d\n", c_word);
 	allocate(log, c_word, com_num);
 	ft_splitstr(s, log, com_num);
-	int i = 0;
+	i = 0;
 	while (i < c_word)
 		printf("command is %s\n", log->execve_args[com_num][i++]);
 	printf("allocated\n");

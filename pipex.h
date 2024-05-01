@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/30 21:22:33 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/01 18:33:32 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_captains
 	int		cm_num;
 	int		err_no;
 	int		*pids;
+	char	c;
 	char	*file1;
 	char	*file2;
 	char	**paths; //if a command doesn't exist do perror and have NULL for it
@@ -68,9 +69,13 @@ int		ft_pipex(char **envp, t_captains *log);
 //pipex_strjoin.c
 char	*pipex_strjoin(char *s1, char *s2, int seq);
 //pipex_split.c
-void	pipex_split(char *s, char c, t_captains *log, int com_num);
+void	pipex_split(char *s, t_captains *log, int com_num);
 //pipex_substr.c
-char	*pipex_substr(char const *s, unsigned int strt, size_t len,
+char	*pipex_substr(char *s, unsigned int strt, size_t len,
 			t_captains *log);
+//utils.c
+void	ft_transform(char *s, char c);
+int		ft_skip(char *s, char c, int i);
+int		check_for_c(char *s, char c);
 
 #endif

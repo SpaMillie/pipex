@@ -6,7 +6,7 @@
 #    By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/03 17:30:47 by mspasic           #+#    #+#              #
-#    Updated: 2024/04/28 19:31:54 by mspasic          ###   ########.fr        #
+#    Updated: 2024/05/01 18:35:41 by mspasic          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SOURCE_FILES = main.c \
 				pipex_split.c \
 				pipex_substr.c \
 				pipex.c \
-				open_and_parse.c 
+				open_and_parse.c \
+				utils.c 
 
 OBJECT_FILES = $(SOURCE_FILES:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:59:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/29 19:12:43 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/01 19:20:32 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ int	init_fds(t_captains *log, t_filedes *cripto, int *fds, int old)
 	else if (cripto->i == log->arg_c - 3)
 	{
 		// //printf("outfile fd is %d\n", log->fd_out);
-		if (log->fd_out == -1)
-			return (-1);
 		cripto->fd_in = old;
 		cripto->fd_out = log->fd_out;
 		cripto->fd_cls = -2;
+		if (log->fd_out == -1)
+			return (-1);
 	}
 	else
 	{
@@ -86,7 +86,7 @@ void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 				perror_exit("pipex: pipe", -1, log, 1);
 		to_f_or_not = init_fds(log, cripto, fds, oldfd);
 		oldfd = fds[0];
-		if (to_f_or_not != -1)
+		if (to_f_or_not != -1 && log->execve_args[cripto->i][0][0] != 9)
 			forking(envp, log, cripto);
 		if (cripto->fd_in != -1)
 			close(cripto->fd_in);
