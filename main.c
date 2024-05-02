@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/02 17:53:13 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/02 18:39:03 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	// int			check;
 	t_captains	log;
+	int			status;
 
 	if (argc == 5) //for bonus >= 5
 	{
@@ -82,8 +83,13 @@ int	main(int argc, char **argv, char **envp)
 		// 	return (1);
 		// }
 		////printf("ENTERING PIPEX\n");
-		ft_pipex(envp, &log);
+		status = ft_pipex(envp, &log);
+		if (WIFEXITED(status))
+			status = WEXITSTATUS(status);
+		else
+			status = WTERMSIG(status);
 		free_to_cleanup(&log);
+		return (status);
 	}
 	else
 		return (invalid_argument(0, &log, NULL, 0));

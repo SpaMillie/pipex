@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:59:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/02 17:53:13 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/02 18:43:06 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,10 @@ int	ft_pipex(char **envp, t_captains *log)
 		// ////printf("pids are %d\n", log->pids[i]);
 		waitpid(log->pids[i++], &status, 0);
 	}
+	if (log->fd_out == -1)
+		status = 1;
+	else if (log->execve_args[i - 1][0][0] == 9)
+		status = 127;
 	// ////printf("exiting ft_pipex\n");
-	return (0);
+	return (status);
 }
