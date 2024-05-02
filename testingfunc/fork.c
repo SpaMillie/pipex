@@ -12,7 +12,7 @@ int	main(void)
 		return (1);
 	}
 	if (pid == 0)
-		printf("The parent: %d\n", getpid());
+		//printf("The parent: %d\n", getpid());
 	else
-		printf("The child: %d\n", getpid());
+		//printf("The child: %d\n", getpid());
 }

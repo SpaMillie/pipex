@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 19:21:50 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/01 18:36:54 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/02 17:55:48 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void	allocate(t_captains *log, int words, int com_num)
 			perror_exit("pipex: malloc", -1, log, 1);
 		log->execve_args[i - 1] = NULL;
 	}
+	if (words == 0)
+		words = 1;
 	log->execve_args[com_num] = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!log->execve_args[com_num])
 		perror_exit("pipex: malloc", -1, log, 1);
@@ -49,7 +51,7 @@ static int	resolve(char *s, char c, int i, t_captains *log)
 	return (i);
 }
 
-static int	count_word(char *s, char c, t_captains *log)
+int	w_count(char *s, char c, t_captains *log)
 {
 	int	words;
 	int	i;
@@ -66,7 +68,7 @@ static int	count_word(char *s, char c, t_captains *log)
 		{
 			i = resolve(s, c, i, log);
 			if (i == -2)
-				return (count_word(s, log->c, log));
+				return (w_count(s, log->c, log));
 		}
 		if (prev_i != i)
 			words++;
@@ -111,25 +113,27 @@ void	pipex_split(char *s, t_captains *log, int com_num)
 	int		c_word;
 	int		i;
 
-	printf("entering pipex_split\n");
+	// printf("entering pipex_split\n");
 	log->c = 32;
 	i = 0;
-	c_word = count_word(s, log->c, log);
-	printf("count word is %d\n", c_word);
-	if (c_word < 1)
+	c_word = w_count(s, log->c, log);
+	// printf("count word is %d\n", c_word);
+	// printf("c-word = %d\n", c_word);
+	allocate(log, c_word, com_num);
+	if (c_word == 0)
 	{
-		invalid_argument(1, log, s, com_num);
+		// printf("SEGFAULT?\n");
+		log->execve_args[com_num][0] = ft_strdup(s);
+		log->execve_args[com_num][1] = NULL;
 		return ;
 	}
-	printf("c-word = %d\n", c_word);
-	allocate(log, c_word, com_num);
 	ft_splitstr(s, log, com_num);
-	i = 0;
-	while (i < c_word)
-		printf("command is %s\n", log->execve_args[com_num][i++]);
-	printf("allocated\n");
+	// i = 0;
+	// while (i < c_word)
+	// 	printf("command is %s\n", log->execve_args[com_num][i++]);
+	// printf("allocated\n");
 	log->execve_args[com_num][c_word] = NULL;
-	printf("exiting pipex_split\n");
+	// printf("exiting pipex_split\n");
 }
 
 // #include <stdio.h>

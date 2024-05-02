@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/01 18:33:32 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/02 17:14:28 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_filedes
 
 //main.c
 void	init_cmndsflgs(t_captains *log, char **argv);
+void	init_env(t_captains *log, char **envp);
 void	initialise(int argc, char **argv, char **envp, t_captains *log);
 int		main(int argc, char **argv, char **envp);
 //error.c
@@ -69,6 +70,7 @@ int		ft_pipex(char **envp, t_captains *log);
 //pipex_strjoin.c
 char	*pipex_strjoin(char *s1, char *s2, int seq);
 //pipex_split.c
+int		w_count(char *s, char c, t_captains *log);
 void	pipex_split(char *s, t_captains *log, int com_num);
 //pipex_substr.c
 char	*pipex_substr(char *s, unsigned int strt, size_t len,

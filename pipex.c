@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:59:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/01 19:20:32 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/02 17:53:13 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void	ft_child(char **envp, t_filedes *cripto, t_captains *log)
 {
-	// //printf("entering ft_child\n");
+	// ////printf("entering ft_child\n");
 	if (cripto->fd_cls != -2)
 		close (cripto->fd_cls);
-	// //printf("so far so good\n");
+	// ////printf("so far so good\n");
 	if (dup2(cripto->fd_in, STDIN_FILENO) == -1)
 		perror_exit("pipex: dup2", 1, log, 1);
-	// //printf("2so far so good\n");
+	// ////printf("2so far so good\n");
 	close (cripto->fd_in);
 	if (dup2(cripto->fd_out, STDOUT_FILENO) == -1)
 		perror_exit("pipex: dup2", 1, log, 1);
-	// //printf("3so far so good\n");
+	// ////printf("3so far so good\n");
 	close (cripto->fd_out);
-	// //printf("exiting ft_child\n");
+	// ////printf("exiting ft_child\n");
 	execve(log->execve_args[log->cm_num][0], log->execve_args[log->cm_num], \
 		envp);
 	perror_exit(log->execve_args[log->cm_num][0], 1, log, 2);
@@ -34,33 +34,33 @@ void	ft_child(char **envp, t_filedes *cripto, t_captains *log)
 
 int	init_fds(t_captains *log, t_filedes *cripto, int *fds, int old)
 {
-	// //printf("entering init_fds\n");
+	cripto->fd_in = old;
+	cripto->fd_out = fds[1];
+	cripto->fd_cls = fds[0];
+	// ////printf("entering init_fds\n");
 	if (cripto->i == 0)
 	{
 		cripto->fd_in = log->fd_in;
-		cripto->fd_out = fds[1];
-		cripto->fd_cls = fds[0];
 		if (log->fd_in == -1)
+		{
+			log->err_no = -1;
 			return (-1);
+		}
 	}
 	else if (cripto->i == log->arg_c - 3)
 	{
-		// //printf("outfile fd is %d\n", log->fd_out);
-		cripto->fd_in = old;
+		// ////printf("outfile fd is %d\n", log->fd_out);
 		cripto->fd_out = log->fd_out;
 		cripto->fd_cls = -2;
 		if (log->fd_out == -1)
+		{
+			log->err_no = -1;
 			return (-1);
-	}
-	else
-	{
-		cripto->fd_in = old;
-		cripto->fd_out = fds[1];
-		cripto->fd_cls = fds[0];
+		}
 	}
 	return (0);
-	// //printf("fdin is %d and fdout is %d and fdcls is %d\n", cripto->fd_in, cripto->fd_out, cripto->fd_cls);
-	// //printf("exiting init_fds\n");
+	// ////printf("fdin is %d and fdout is %d and fdcls is %d\n", cripto->fd_in, cripto->fd_out, cripto->fd_cls);
+	// ////printf("exiting init_fds\n");
 }
 
 void	forking(char **envp, t_captains *log, t_filedes *cripto)
@@ -77,7 +77,7 @@ void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 	int	fds[2];
 	int	oldfd;
 	int	to_f_or_not;
-	// //printf("entering ft_parent\n");
+	// ////printf("entering ft_parent\n");
 	cripto->i = 0;
 	while (cripto->i < log->arg_c - 2)
 	{
@@ -95,7 +95,7 @@ void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 		log->cm_num++;
 		cripto->i++;
 	}
-	// //printf("exiting ft_parent\n");
+	// ////printf("exiting ft_parent\n");
 }
 
 int	ft_pipex(char **envp, t_captains *log)
@@ -104,7 +104,7 @@ int	ft_pipex(char **envp, t_captains *log)
 	int			i;
 	int			status;
 
-	// //printf("entering ft_pipex\n");
+	// ////printf("entering ft_pipex\n");
 	log->cm_num = 0;
 	i = 0;
 	log->pids = (int *)malloc(sizeof(int) * (log->arg_c - 2));
@@ -114,9 +114,9 @@ int	ft_pipex(char **envp, t_captains *log)
 	i = 0;
 	while (i < log->arg_c - 2)
 	{
-		// //printf("pids are %d\n", log->pids[i]);
+		// ////printf("pids are %d\n", log->pids[i]);
 		waitpid(log->pids[i++], &status, 0);
 	}
-	// //printf("exiting ft_pipex\n");
+	// ////printf("exiting ft_pipex\n");
 	return (0);
 }

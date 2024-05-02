@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/04/30 21:14:34 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/02 17:53:13 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,17 @@ void	init_cmndsflgs(t_captains *log, char **argv)
 	while (i + 2 < log->arg_c)
 	{
 		log->cmmndswflgs[i] = ft_strdup(argv[i + 2]);
-		//printf("commands with flags is %s\n", log->cmmndswflgs[i]);
+		////printf("commands with flags is %s\n", log->cmmndswflgs[i]);
 		i++;
 	}
 	log->cmmndswflgs[i] = NULL;
 	log->err_no = -2;
 }
 
-void	initialise(int argc, char **argv, char **envp, t_captains *log)
+void	init_env(t_captains *log, char **envp)
 {
 	int	i;
 
-	// //printf("entering initialise\n");
 	i = 0;
 	while (envp[i] != NULL && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
@@ -46,7 +45,15 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 			i++;
 		}
 	}
+}
+
+void	initialise(int argc, char **argv, char **envp, t_captains *log)
+{
+	int	i;
+
+	// ////printf("entering initialise\n");
 	i = 0;
+	init_env(log, envp);
 	log->arg_c = argc - 1;
 	log->cmmndswflgs = (char **)malloc(sizeof(char *) * (argc - 2));
 	if (!log->cmmndswflgs)
@@ -56,7 +63,7 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 		perror_exit("pipex: malloc", -1, log, 1);
 	log->cmnd_path[argc - 3] = NULL;
 	init_cmndsflgs(log, argv);
-	//printf("exiting initialise\n");
+	////printf("exiting initialise\n");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -74,7 +81,7 @@ int	main(int argc, char **argv, char **envp)
 		// 	free_everything(&log);
 		// 	return (1);
 		// }
-		//printf("ENTERING PIPEX\n");
+		////printf("ENTERING PIPEX\n");
 		ft_pipex(envp, &log);
 		free_to_cleanup(&log);
 	}
