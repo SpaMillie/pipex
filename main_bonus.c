@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 17:07:01 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 17:00:38 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 	t_captains	log;
 	int			status;
 
-	if (argc == 5) //for bonus >= 5
+	if (argc >= 5) //for bonus >= 5
 	{
 		log = (t_captains){0};
 		initialise(argc, argv, envp, &log);

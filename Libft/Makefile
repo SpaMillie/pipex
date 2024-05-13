@@ -6,7 +6,7 @@
 #    By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/02 15:07:23 by mspasic           #+#    #+#              #
-#    Updated: 2024/04/29 13:45:48 by mspasic          ###   ########.fr        #
+#    Updated: 2024/05/13 17:21:39 by mspasic          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJ_FLS = $(SRC_FLS:.c=.o)
 BOBJ_FLS = $(BNS_FLS:.c=.o)
 NAME = libft.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address 
+CFLAGS = -Wall -Wextra -Werror 
 
 all: $(NAME)
 $(NAME):$(OBJ_FLS)

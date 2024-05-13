@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:46 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 16:35:37 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 17:03:07 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	open_n_parse(char **argv, t_captains *log)
 	{
 		if (i == log->arg_c - 3)
 			log->fd_out = opening_files(argv[log->arg_c - 1], log, 2);
-		printf("the command is %s\n", log->execve_args[i][0]);
+		// printf("the command is %s\n", log->execve_args[i][0]);
 		if (ft_strchr(log->execve_args[i][0], '/') == NULL && \
 			access(log->execve_args[i][0], X_OK) == -1)
 		{

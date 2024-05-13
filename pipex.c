@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:59:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 16:40:14 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 17:02:11 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 	int	fds[2];
 	int	oldfd;
 	int	to_f_or_not;
-	printf("entering ft_parent\n");
+	// printf("entering ft_parent\n");
 	cripto->i = 0;
 	while (cripto->i < log->arg_c - 2)
 	{
@@ -89,7 +89,7 @@ void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 		log->cm_num++;
 		cripto->i++;
 	}
-	printf("exiting ft_parent\n");
+	// printf("exiting ft_parent\n");
 }
 
 int	ft_pipex(char **envp, t_captains *log)
@@ -98,7 +98,7 @@ int	ft_pipex(char **envp, t_captains *log)
 	int			i;
 	int			status;
 
-	printf("entering ft_pipex\n");
+	// printf("entering ft_pipex\n");
 	log->cm_num = 0;
 	i = 0;
 	log->pids = (int *)malloc(sizeof(int) * (log->arg_c - 2));
@@ -112,6 +112,6 @@ int	ft_pipex(char **envp, t_captains *log)
 		status = 1;
 	else if (log->execve_args[i - 1][0][0] == 9)
 		status = 127;
-	printf("exiting ft_pipex\n");
+	// printf("exiting ft_pipex\n");
 	return (status);
 }
