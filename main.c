@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 17:07:01 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 20:23:41 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 			status = WTERMSIG(status);
 		free_to_cleanup(&log);
+		system("leaks pipex");
 		return (status);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:46 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 17:03:07 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 20:47:17 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	pathfinder(t_captains *log, int com_num, char *command)
 				perror_exit("pipex: malloc", -1, log, 1);
 			if (access(log->cmnd_path[com_num], X_OK) != -1)
 			{
+				free (command);
 				log->execve_args[com_num][0] = log->cmnd_path[com_num];
 				////printf("command with path is %s\n", log->cmnd_path[com_num]);
 				////printf("exiting pathfinder\n");
@@ -39,6 +40,7 @@ void	pathfinder(t_captains *log, int com_num, char *command)
 			i++;
 		}
 	}
+	free(log->cmnd_path[com_num]);
 	//printf("IS IT HERE?\n");
 	if ((log->fd_in == -1 && com_num == 0) || \
 		(log->fd_out == -1 && com_num == log->arg_c - 3))
@@ -70,12 +72,12 @@ void	open_n_parse(char **argv, t_captains *log)
 	i = 0;
 	while (log->cmmndswflgs[i] != NULL)
 	{
-		////printf("commands with flags is %s\n", log->cmmndswflgs[i]);
+		printf("commands with flags is %p\n", log->cmmndswflgs[i]);
 		pipex_split(log->cmmndswflgs[i], log, i);
 		////printf("i is %d\n", i);
 		i++;
 	}
-	//printf("command is in open_parse %s\n", log->execve_args[0][0]);
+	printf("command is in open_parse %p\n", log->execve_args[0][0]);
 	i = 0;
 	while (i < log->arg_c - 2)
 	{
