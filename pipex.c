@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:59:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 12:42:28 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 15:00:07 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	init_fds(t_captains *log, t_filedes *cripto, int *fds, int old)
 	{
 		cripto->fd_in = log->fd_in;
 		if (log->fd_in == -1)
-			return (file_permission(log, log->file1));
+			return (-1);
 	}
 	else if (cripto->i == log->arg_c - 3)
 	{
@@ -53,7 +53,7 @@ int	init_fds(t_captains *log, t_filedes *cripto, int *fds, int old)
 		cripto->fd_out = log->fd_out;
 		cripto->fd_cls = -2;
 		if (log->fd_out == -1)
-			return (file_permission(log, log->file2));
+			return (-1);
 	}
 	return (0);
 	// ////printf("fdin is %d and fdout is %d and fdcls is %d\n", cripto->fd_in, cripto->fd_out, cripto->fd_cls);

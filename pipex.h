@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 12:20:34 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 14:58:59 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef struct s_captains
 	int		err_no;
 	int		*pids;
 	char	c;
-	char	*file1;
-	char	*file2;
+	// char	*file1;
+	// char	*file2;
 	char	**paths; //if a command doesn't exist do perror and have NULL for it
 	char	**cmmndswflgs;
 	char	**cmnd_path;
@@ -60,7 +60,7 @@ void	free_triple(t_captains *log);
 void	perror_exit(char *str, int to_free, t_captains *log, int option);
 //open_and_parse.c
 void	pathfinder(t_captains *log, int com_num, char *command);
-void	opening_files(char *file1, char *file2, t_captains *log);
+int		opening_files(char *file, t_captains *log, int option);
 void	open_n_parse(char **argv, t_captains *log);
 //pipex.c
 void	ft_child(char **envp, t_filedes *cripto, t_captains *log);
