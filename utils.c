@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:07:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 12:21:22 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 21:29:09 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,13 @@ int	check_for_c(char *s, char c)
 		i++;
 	}
 	return (check);
+}
+
+void	set_errno(t_captains *log, int com_num)
+{
+	if ((log->fd_in == -1 && com_num == 0) || \
+		(log->fd_out == -1 && com_num == log->arg_c - 3))
+		log->err_no = -1;
+	else
+		log->err_no = -2;
 }

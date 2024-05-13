@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 19:21:50 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/02 17:55:48 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 21:22:28 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	allocate(t_captains *log, int words, int com_num)
 {
 	int	i;
-	// //printf("entering allocate\n");
+
 	i = log->arg_c - 1;
 	if (com_num == 0)
 	{
@@ -29,7 +29,6 @@ static void	allocate(t_captains *log, int words, int com_num)
 	log->execve_args[com_num] = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!log->execve_args[com_num])
 		perror_exit("pipex: malloc", -1, log, 1);
-	// //printf("exiting allocate\n");
 }
 
 static int	resolve(char *s, char c, int i, t_captains *log)
@@ -77,15 +76,6 @@ int	w_count(char *s, char c, t_captains *log)
 }
 
 char	**free_all(char **res);
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (res[i])
-// 		free(res[i++]);
-// 	free(res);
-// 	return (0);
-// }
 
 static void	ft_splitstr(char *s, t_captains *log, int com_num)
 {
@@ -113,48 +103,16 @@ void	pipex_split(char *s, t_captains *log, int com_num)
 	int		c_word;
 	int		i;
 
-	// printf("entering pipex_split\n");
 	log->c = 32;
 	i = 0;
 	c_word = w_count(s, log->c, log);
-	// printf("count word is %d\n", c_word);
-	// printf("c-word = %d\n", c_word);
 	allocate(log, c_word, com_num);
 	if (c_word == 0)
 	{
-		// printf("SEGFAULT?\n");
 		log->execve_args[com_num][0] = ft_strdup(s);
 		log->execve_args[com_num][1] = NULL;
 		return ;
 	}
 	ft_splitstr(s, log, com_num);
-	// i = 0;
-	// while (i < c_word)
-	// 	printf("command is %s\n", log->execve_args[com_num][i++]);
-	// printf("allocated\n");
 	log->execve_args[com_num][c_word] = NULL;
-	// printf("exiting pipex_split\n");
 }
-
-// #include <stdio.h>
-// int    main(void)
-// {
-// // s = ft_split();
-// 	char *s = "      split       this for   me  !       ";
-
-//         char **ns = ft_split(s, ' ');
-// 		//printf("%p\n", ns);
-
-// 	// //printf("Result 1:\n");
-// 	// if (!ns)
-// 	// 	//printf("Test\n");
-// 	// if (ns[0])
-// 	// 	//printf("Ok\n");
-//     for (int i = 0; ns[i] != 0; i++) {
-//         //printf("[%d]: %s\n", i, ns[i]);
-//         free(ns[i]);
-//     }
-// 	free (ns);
-// 	// system("leaks a.out");
-//     return (0);
-// }

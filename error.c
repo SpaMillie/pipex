@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 21:08:00 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 21:32:25 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ char	**free_all(char **res);
 
 void	free_to_cleanup(t_captains *log)
 {
-	// free(log->file1);
-	// free(log->file2);
 	free(log->pids);
 	free_all(log->cmmndswflgs);
 	free_all(log->paths);
@@ -49,7 +47,7 @@ void	free_triple(t_captains *log)
 	while (log->execve_args[i] != NULL)
 		free_all(log->execve_args[i++]);
 	free(log->execve_args);
-	}
+}
 
 void	perror_exit(char *str, int to_free, t_captains *log, int option)
 {

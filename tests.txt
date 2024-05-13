@@ -73,8 +73,9 @@ pipex: /Users/$User
 
 command: echo '$HOME'
 zsh: $HOME
-pipex: //loops [[TO FIX]]
+pipex: /Users/$USER (argv expands the target before giving it to the program)
 issue: when parsing single quotes, pipex loops and never stops
+[FIXED] learn to count lmao
 
 command: echo "djhfsdjh" > outfile
 issue - when you run it in the shell, it doesn't add the new line, but in execve echo it does?

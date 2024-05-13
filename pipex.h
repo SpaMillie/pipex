@@ -6,20 +6,19 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 20:55:35 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 21:36:42 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
-# include <unistd.h> //need
-# include <fcntl.h> //need
-// # include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h> 
 # include <stdio.h>
-# include <sys/wait.h> //need
-# include <errno.h> //need
+# include <sys/wait.h>
+# include <errno.h>
 # include "Libft/include/libft.h"
-//check which headers you need 
+
 typedef struct s_captains
 {
 	int		fd_in;
@@ -29,12 +28,9 @@ typedef struct s_captains
 	int		err_no;
 	int		*pids;
 	char	c;
-	// char	*file1;
-	// char	*file2;
 	char	*cmnd_path;
-	char	**paths; //if a command doesn't exist do perror and have NULL for it
+	char	**paths;
 	char	**cmmndswflgs;
-	char	***pre_execve;
 	char	***execve_args;
 }	t_captains;
 
@@ -56,7 +52,6 @@ int		file_permission(t_captains *log, char *file);
 int		invalid_argument(int option, t_captains *log, char *str, int com_num);
 void	free_to_cleanup(t_captains *log);
 void	free_triple(t_captains *log);
-// void	ft_perror(char *str, int fail);
 void	perror_exit(char *str, int to_free, t_captains *log, int option);
 //open_and_parse.c
 void	pathfinder(t_captains *log, int com_num, char *command);
@@ -80,5 +75,6 @@ char	*pipex_substr(char *s, unsigned int strt, size_t len,
 void	ft_transform(char *s, char c);
 int		ft_skip(char *s, char c, int i);
 int		check_for_c(char *s, char c);
+void	set_errno(t_captains *log, int com_num);
 
 #endif

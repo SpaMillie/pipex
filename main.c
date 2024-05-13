@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 20:57:59 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 21:35:10 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	init_cmndsflgs(t_captains *log, char **argv)
 	while (i + 2 < log->arg_c)
 	{
 		log->cmmndswflgs[i] = ft_strdup(argv[i + 2]);
-		////printf("commands with flags is %s\n", log->cmmndswflgs[i]);
 		i++;
 	}
 	log->cmmndswflgs[i] = NULL;
@@ -51,7 +50,6 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 {
 	int	i;
 
-	// ////printf("entering initialise\n");
 	i = 0;
 	init_env(log, envp);
 	log->arg_c = argc - 1;
@@ -59,33 +57,24 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 	if (!log->cmmndswflgs)
 		perror_exit("pipex: malloc", -1, log, 1);
 	init_cmndsflgs(log, argv);
-	////printf("exiting initialise\n");
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	// int			check;
 	t_captains	log;
 	int			status;
 
-	if (argc == 5) //for bonus >= 5
+	if (argc == 5)
 	{
 		log = (t_captains){0};
 		initialise(argc, argv, envp, &log);
 		open_n_parse(argv + 1, &log);
-		// if (check == -1)
-		// {
-		// 	free_everything(&log);
-		// 	return (1);
-		// }
-		////printf("ENTERING PIPEX\n");
 		status = ft_pipex(envp, &log);
 		if (WIFEXITED(status))
 			status = WEXITSTATUS(status);
 		else
 			status = WTERMSIG(status);
 		free_to_cleanup(&log);
-		system("leaks pipex");
 		return (status);
 	}
 	else
