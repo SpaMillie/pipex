@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:59:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 15:00:07 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 16:40:14 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,9 @@ void	ft_child(char **envp, t_filedes *cripto, t_captains *log)
 	close (cripto->fd_in);
 	if (dup2(cripto->fd_out, STDOUT_FILENO) == -1)
 		perror_exit("pipex: dup2", 1, log, 1);
-	printf("sofar so goof blah\n");
-	printf("cmnum = %d, errnum = %d, command = %s\n", log->cm_num, log->err_no, log->execve_args[log->cm_num][0]);
 	close (cripto->fd_out);
 	if (log->cm_num == 0 && log->fd_in == -1)
 			log->err_no = -1;
-	// ////printf("exiting ft_child\n");
 	execve(log->execve_args[log->cm_num][0], log->execve_args[log->cm_num], \
 		envp);
 	perror_exit(log->execve_args[log->cm_num][0], 1, log, 2);
@@ -74,7 +71,7 @@ void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 	int	fds[2];
 	int	oldfd;
 	int	to_f_or_not;
-	// printf("entering ft_parent\n");
+	printf("entering ft_parent\n");
 	cripto->i = 0;
 	while (cripto->i < log->arg_c - 2)
 	{
@@ -92,7 +89,7 @@ void	ft_parent(char **envp, t_captains *log, t_filedes *cripto)
 		log->cm_num++;
 		cripto->i++;
 	}
-	// printf("exiting ft_parent\n");
+	printf("exiting ft_parent\n");
 }
 
 int	ft_pipex(char **envp, t_captains *log)
@@ -101,7 +98,7 @@ int	ft_pipex(char **envp, t_captains *log)
 	int			i;
 	int			status;
 
-	// printf("entering ft_pipex\n");
+	printf("entering ft_pipex\n");
 	log->cm_num = 0;
 	i = 0;
 	log->pids = (int *)malloc(sizeof(int) * (log->arg_c - 2));
@@ -115,6 +112,6 @@ int	ft_pipex(char **envp, t_captains *log)
 		status = 1;
 	else if (log->execve_args[i - 1][0][0] == 9)
 		status = 127;
-	// printf("exiting ft_pipex\n");
+	printf("exiting ft_pipex\n");
 	return (status);
 }
