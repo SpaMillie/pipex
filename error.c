@@ -6,11 +6,18 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:48:44 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/01 19:26:11 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 12:34:23 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+int	file_permission(t_captains *log, char *file)
+{
+	log->err_no = -2;
+	perror_exit(file, 1, log, 2);
+	return (-1);
+}
 
 int	invalid_argument(int option, t_captains *log, char *str, int com_num)
 {
@@ -26,8 +33,8 @@ char	**free_all(char **res);
 
 void	free_to_cleanup(t_captains *log)
 {
-	free(log->file1);
-	free(log->file2);
+	// free(log->file1);
+	// free(log->file2);
 	free(log->pids);
 	free(log->cmnd_path);
 	free_all(log->cmmndswflgs);
@@ -43,18 +50,8 @@ void	free_triple(t_captains *log)
 	while (log->execve_args[i] != NULL)
 		free_all(log->execve_args[i++]);
 	free(log->execve_args);
-}
+	}
 
-// void	ft_perror(char *str, int fail)
-// {
-// 	if (fail == 1)
-// 		perror_exit(str);
-// 	if (fail == 2)
-// 		write(2, "pipex: malloc failed", 20);
-// 	write(2, str, ft_strlen(str));
-// 	write(2, "\n", 1);
-// 	exit(EXIT_FAILURE);
-// }
 void	perror_exit(char *str, int to_free, t_captains *log, int option)
 {
 	if (to_free == -1)

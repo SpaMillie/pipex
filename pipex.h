@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/02 17:14:28 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 12:20:34 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	init_env(t_captains *log, char **envp);
 void	initialise(int argc, char **argv, char **envp, t_captains *log);
 int		main(int argc, char **argv, char **envp);
 //error.c
+int		file_permission(t_captains *log, char *file);
 int		invalid_argument(int option, t_captains *log, char *str, int com_num);
 void	free_to_cleanup(t_captains *log);
 void	free_triple(t_captains *log);

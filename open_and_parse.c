@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:46 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/02 17:53:13 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 12:48:40 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	pathfinder(t_captains *log, int com_num, char *command)
 		}
 	}
 	//printf("IS IT HERE?\n");
-	if ((log->fd_in != -1 && com_num != 0) || \
-		(log->fd_out != -1 && com_num != log->arg_c - 3))
-		log->err_no = -2;
+	if ((log->fd_in == -1 && com_num == 0) || \
+		(log->fd_out == -1 && com_num == log->arg_c - 3))
+		log->err_no = -1;
 	perror_exit(command, 1, log, 3);
 	log->execve_args[com_num][0][0] = 9;
 }
@@ -51,13 +51,9 @@ void	opening_files(char *file1, char *file2, t_captains *log)
 {
 	////printf("entering OPENING_FILES\n");
 	log->fd_in = open(file1, O_RDONLY);
-	if (log->fd_in == -1)
-		perror_exit(file1, 1, log, 2);
+	log->file1 = file1;
 	log->fd_out = open(file2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (log->fd_out != -1)
-		return ;
-	log->err_no = -2;
-	perror_exit(file2, 1, log, 2);
+	log->file2 = file2;
 }
 
 void	open_n_parse(char **argv, t_captains *log)
