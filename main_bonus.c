@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 17:00:38 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 20:58:13 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,6 @@ void	initialise(int argc, char **argv, char **envp, t_captains *log)
 	log->cmmndswflgs = (char **)malloc(sizeof(char *) * (argc - 2));
 	if (!log->cmmndswflgs)
 		perror_exit("pipex: malloc", -1, log, 1);
-	log->cmnd_path = (char **)malloc(sizeof(char *) * (argc - 2));
-	if (!log->cmnd_path)
-		perror_exit("pipex: malloc", -1, log, 1);
-	log->cmnd_path[argc - 3] = NULL;
 	init_cmndsflgs(log, argv);
 	////printf("exiting initialise\n");
 }

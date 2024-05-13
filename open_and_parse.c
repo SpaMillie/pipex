@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:46 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 20:47:17 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 20:58:27 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ void	pathfinder(t_captains *log, int com_num, char *command)
 		while (log->paths != NULL && log->paths[i] != NULL)
 		{
 			if (i != 0)
-				free(log->cmnd_path[com_num]);
+				free(log->cmnd_path);
 			////printf("the path is %s and %d\n", log->paths[i], i);
 			////printf("com_num is %d\n", com_num);
-			log->cmnd_path[com_num] = pipex_strjoin(log->paths[i], command, 0);
-			if (!log->cmnd_path[com_num])
+			log->cmnd_path = pipex_strjoin(log->paths[i], command, 0);
+			if (!log->cmnd_path)
 				perror_exit("pipex: malloc", -1, log, 1);
-			if (access(log->cmnd_path[com_num], X_OK) != -1)
+			if (access(log->cmnd_path, X_OK) != -1)
 			{
 				free (command);
-				log->execve_args[com_num][0] = log->cmnd_path[com_num];
+				log->execve_args[com_num][0] = log->cmnd_path;
 				////printf("command with path is %s\n", log->cmnd_path[com_num]);
 				////printf("exiting pathfinder\n");
 				return ;
@@ -40,7 +40,7 @@ void	pathfinder(t_captains *log, int com_num, char *command)
 			i++;
 		}
 	}
-	free(log->cmnd_path[com_num]);
+	free(log->cmnd_path);
 	//printf("IS IT HERE?\n");
 	if ((log->fd_in == -1 && com_num == 0) || \
 		(log->fd_out == -1 && com_num == log->arg_c - 3))

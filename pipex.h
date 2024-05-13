@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:00:31 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 14:58:59 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/13 20:55:35 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ typedef struct s_captains
 	char	c;
 	// char	*file1;
 	// char	*file2;
+	char	*cmnd_path;
 	char	**paths; //if a command doesn't exist do perror and have NULL for it
 	char	**cmmndswflgs;
-	char	**cmnd_path;
 	char	***pre_execve;
 	char	***execve_args;
 }	t_captains;
