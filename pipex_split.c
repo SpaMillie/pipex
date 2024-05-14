@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 19:21:50 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/14 13:36:55 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/14 14:11:23 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ void	pipex_split(char *s, t_captains *log, int com_num)
 	if (c_word == 0)
 	{
 		log->execve_args[com_num][0] = ft_strdup(s);
-		//protect
+		if (log->execve_args[com_num][0] == NULL)
+			perror_exit("pipex: malloc", -1, log, 1);
 		log->execve_args[com_num][1] = NULL;
 		return ;
 	}
