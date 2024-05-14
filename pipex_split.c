@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 19:21:50 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 21:22:28 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/14 13:36:55 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void	pipex_split(char *s, t_captains *log, int com_num)
 	if (c_word == 0)
 	{
 		log->execve_args[com_num][0] = ft_strdup(s);
+		//protect
 		log->execve_args[com_num][1] = NULL;
 		return ;
 	}

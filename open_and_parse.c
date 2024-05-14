@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:46 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 21:30:22 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/14 13:26:17 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	open_n_parse(char **argv, t_captains *log)
 	while (log->cmmndswflgs[i] != NULL)
 	{
 		pipex_split(log->cmmndswflgs[i], log, i);
+		//protect
 		i++;
 	}
 	i = 0;

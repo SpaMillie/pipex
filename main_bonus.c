@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:08:04 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 21:35:05 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/14 13:29:43 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	init_cmndsflgs(t_captains *log, char **argv)
 	while (i + 2 < log->arg_c)
 	{
 		log->cmmndswflgs[i] = ft_strdup(argv[i + 2]);
+		//protect
 		i++;
 	}
 	log->cmmndswflgs[i] = NULL;
@@ -37,10 +38,12 @@ void	init_env(t_captains *log, char **envp)
 	if (envp[i] != NULL)
 	{
 		log->paths = ft_split(envp[i] + 5, ':');
+		//protect
 		i = 0;
 		while (log->paths[i] != NULL)
 		{
 			log->paths[i] = pipex_strjoin(log->paths[i], "/", 1);
+			//protect
 			i++;
 		}
 	}
