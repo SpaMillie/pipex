@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:07:57 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/13 21:29:09 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/15 16:31:15 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ int	check_for_c(char *s, char c)
 			check++;
 		i++;
 	}
-	return (check);
+	if (check % 2 == 0)
+		return (2);
+	return (0);
 }
 
 void	set_errno(t_captains *log, int com_num)

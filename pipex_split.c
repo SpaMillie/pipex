@@ -6,7 +6,7 @@
 /*   By: mspasic <mspasic@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 19:21:50 by mspasic           #+#    #+#             */
-/*   Updated: 2024/05/14 14:11:23 by mspasic          ###   ########.fr       */
+/*   Updated: 2024/05/15 16:52:10 by mspasic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static int	resolve(char *s, char c, int i, t_captains *log)
 				log->c = 7;
 				return (-2);
 			}
+			else
+				i++;
 		}
 		else
 			i++;
